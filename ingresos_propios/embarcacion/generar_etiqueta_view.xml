@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+       <data>
+            
+        <record id="ip_correlativo_etiquetas_view" model="ir.ui.view">
+            <field name="name">ip_correlativo_etiquetas.form</field>
+            <field name="model">ip.correlativo.etiquetas</field>
+            <field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+            <form string="Etiquetas">
+                <header>
+                    <button name="eliminar_etiqueta" type='object' states="borrador" string="Eliminar" />
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group col="4" columns="4">
+                        <field name="etiqueta_id" required="1" on_change='buscar_valores(etiqueta_id)' />
+                        <field name="ano_2" string="Año"/>
+                        <field name="prefijo" />
+                        <field name="cantidad_digitos" select="1"/>
+                        <field name="cantidad" string="Cantidad a Generar" on_change='generar_correlativo(etiqueta_id,prefijo,cantidad_digitos,cantidad)' />
+                        <field name="ano" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                    </group>
+                    <p><center><u><i><b>GENERAR</b></i></u></center></p>
+                    <group>
+                        <field name="etiquetas_ids" select="1"/>
+                    </group>
+                </sheet>
+            </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="ip_correlativo_etiquetas_tree">
+            <field name="name">ip_correlativo_etiquetas.tree</field>
+            <field name="model">ip.correlativo.etiquetas</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Tipo de Etiqueta">
+                    <field name="etiqueta_id" select="1"/>
+                    <field name="ano" />
+                </tree>
+            </field>
+        </record>
+                
+        <record model="ir.actions.act_window" id="action_ip_correlativo_etiquetas">
+            <field name="name">Generar Correlativo</field>
+            <field name="res_model">ip.correlativo.etiquetas</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+<!--
+        vista correlativo one2many
+-->
+            <record model="ir.ui.view" id="view_ip_correlativo_generar_form">
+                <field name="name">ip_correlativo_generar_form</field>
+                <field name="model">ip.correlativo.generar</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Articulos">
+                    <header>
+                        <button name="incidencia_etiqueta" type='object' states="generado,asignado" string="Incidencia" />
+                        <button name="pagar_etiqueta" type='object' states="asignado" string="Pagar" />
+                        <button name="pagar_etiqueta_facturada" type='object' states="facturado" string="Pagar" />
+                        <button name="rendicion_etiqueta" type='object' states="pagado" string="Validación de Rendición" />
+                        <button name="validacion_incidencia" type='object' states="incidencia" string="Validar Incidencia" />
+                        <field name="state" widget="statusbar" />
+                    </header>
+                        <sheet>
+                            <group>
+                                <field name="correlativo" select="1" readonly="1" string="Etiqueta" />
+                                <field name="etiqueta_id" readonly="1" string="Tipo de Etiqueta" />
+                                <field name="fecha" readonly="1" string="Fecha de Creación"/>
+                                <field name="parque_id" readonly="1" string="Parque"/>
+                                <field name="matricula_id" options="{'no_create': True}" string="Matrícula" on_change="mostrar_embarcacion(matricula_id)" attrs="{'invisible':[('state','in',['generado','val_incidencia','incidencia'])]}" />
+                                <field name="embarcacion" string="Embarcación" readonly="1" attrs="{'invisible':[('state','in',['generado','val_incidencia','incidencia'])]}"/>
+                                <field name="fecha_venta" string="Fecha de venta"/>
+                                <field name="descripcion" string="Descripción" attrs="{'invisible':[('state','=','pagado')]}"/>
+                                <field name="verificar_pago" invisible="True"/>
+                            </group>
+                        </sheet>
+<!--
+    mensajería instantanea
+-->
+                        <xpath expr="//sheet" position="after">
+                            <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers"/>
+                                <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                            </div>
+                        </xpath>
+                    </form>
+                </field>
+            </record>
+    
+            <record model="ir.ui.view" id="ip_correlativo_generar_tree">
+                <field name="name">ip_correlativo_generar.tree</field>
+                <field name="model">ip.correlativo.generar</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="articulo" colors="violet:state=='val_incidencia';grey:state=='generado';blue:state=='pagado';sky blue:state=='asignado';red:state=='incidencia';green:state=='rendido'">
+                        <field name="correlativo" select="1" />
+                        <field name="etiqueta_id" string="Tipo Etiqueta"/>
+                        <field name="parque_id" />
+                        <field name="embarcacion" string="Embarcación"/>
+                        <field name="matricula_id" string="Matrícula"/>
+                        <field name="fecha" />
+                        <field name="state" string="Estado"/>
+                    </tree>
+                </field>
+            </record>        
+
+        <record model="ir.actions.act_window" id="action_ip_correlativo_generar">
+            <field name="name">Generar Correlativo</field>
+            <field name="res_model">ip.correlativo.generar</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+         
+        <menuitem name="Generar Correlativos" 
+        id="menu_ip_correlativo_etiquetas" 
+        parent="menu_product_template_etiquetas" 
+        action="action_ip_correlativo_etiquetas" 
+        sequence="50" />
+        
+        <menuitem name="Gestión Etiquetas" 
+        id="menu_action_correlativo_generar" 
+        parent="menu_product_template_etiquetas" 
+        action="action_ip_correlativo_generar" 
+        sequence="700" />
+    </data>
+</openerp>
+<!--
+        vistas de graficos
+-->
+        
+<!--
+         <record model="ir.ui.view" id="view_ip_rendicion_etiquetas_graph">
+            <field name="name">Gráficos Estadísticos</field>
+            <field name="model">ip.correlativo.generar</field>
+            <field name="arch" type="xml">
+                <graph string="Gráficos Estadísticos" type="bar">
+                    <field name="parque_id" type="row"/>
+                    <field name="correlativo" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+         <record model="ir.ui.view" id="view_ip_rendicion_etiquetas_line_graph">
+            <field name="name">Gráficos Estadísticos</field>
+            <field name="model">ip.correlativo.generar</field>
+            <field name="arch" type="xml">
+                <graph string="Gráficos Estadísticos" type="bar">
+                    <field name="parque_id" type="row"/>
+                    <field name="etiqueta_id" type="row"/>
+                    <field name="fecha" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+            
+        <record model="ir.actions.act_window" id="action_ip_correlativo_generar">
+        <field name="name">Generar Correlativo</field>
+        <field name="res_model">ip.correlativo.generar</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form,graph</field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_ip_rendicion_etiquetas_line"> 
+             <field name="name">Rendicion de boletos</field> 
+             <field name="type">ir.actions.act_window</field> 
+             <field name="res_model">ip.correlativo.generar</field> 
+             <field name="view_mode">graph</field> 
+         </record> 
+         
+        <menuitem name="Generar Correlativos" 
+        id="menu_ip_correlativo_etiquetas" 
+        parent="menu_product_template_etiquetas" 
+        action="action_ip_correlativo_etiquetas" 
+        sequence="50" />
+        
+        <menuitem name="Gestión Etiquetas" 
+        id="menu_action_correlativo_generar" 
+        parent="menu_product_template_etiquetas" 
+        action="action_ip_correlativo_generar" 
+        sequence="700" />
+    </data>
+</openerp>
+-->

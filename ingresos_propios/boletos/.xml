@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <openerp>
+        <data>
+            
+<!--
+            vista formulario para generar correlativo
+-->
+            
+            <record id="ip_stock_boletos_form" model="ir.ui.view">
+                <field name="name">ip.stock.boletos.form</field>
+                <field name="model">ip.stock.boletos</field>
+                <field name="type">form</field>
+                <field name="mode">primary</field>
+                <field name="arch" type="xml">
+                    <form name="boletos" string="Boletos">
+                        
+                        <sheet>
+                            <group col="4" columns="4">
+                                <field name="producto_id" select="1" on_change="buscar_producto(producto_id)" />
+                                <field name="ultimo_valor" select="1" />
+                                <field name="prefijo" select="1"  />
+                                <field name="cantidad" select="1"/>
+                                <field name="cantidad_digitos" select="1"/>
+                                <field name="boleto_desde" select="1"/>
+                                <field name="boleto_hasta" select="1"/>
+                               
+                        
+                            </group>
+                            
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+            
+<!--
+            vista arbol del correlativo
+-->
+                
+            <record model="ir.ui.view" id="ip_stock_boletos_tree">
+                <field name="name">ip.stock.boletos.tree</field>
+                <field name="model">ip.stock.boletos</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Correlativos">
+                        <field name="producto_id" />
+                        <field name="boleto_desde"/>
+                        <field name="boleto_hasta"/>
+                        <field name="inventario"/>
+                      
+                    </tree>
+                </field>
+            </record>
+        
+                
+            <record model="ir.actions.act_window" id="action_ip_stock_boletos">
+                <field name="name">Correlativo</field>
+                <field name="res_model">ip.stock.boletos</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+        
+
+        
+        <menuitem name="Stock de boletos" id="menu_ip_stock_boletos" parent="menu_boletos_inparques_inicio"  action="action_ip_stock_boletos" sequence="20" />
+    </data>
+</openerp>

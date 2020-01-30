@@ -1,0 +1,25 @@
+.table-borderless td,
+.table-borderless th {
+    border: 5;
+}
+
+.top-buffer {
+    margin-top:50px;
+      }
+
+.left-buffer{
+    margin-left:-10px;
+}
+
+/*
+.top-buffer {
+    margin-left: 20px;
+    *zoom: 1;
+    margin-top: -30px;
+}
+*/
+.table-bordered.{
+
+bordered: 1px
+
+}

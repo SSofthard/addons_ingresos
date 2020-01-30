@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	  
+	<!-- Estados -->
+	<record id="geo_est_AMA" model="estados">
+		<field name="codigo">AMA</field>
+		<field name="estado">Amazonas</field>
+		<field name="redi_id" ref="geo_redi_GUA"/>
+	</record>
+
+	<record id="geo_est_ANZ" model="estados">
+		<field name="codigo">ANZ</field>
+		<field name="estado">Anzoátegui</field>
+		<field name="redi_id" ref="geo_redi_ORI"/>
+	</record>
+	
+	<record id="geo_est_APU" model="estados">
+		<field name="codigo">APU</field>
+		<field name="estado">Apure</field>
+		<field name="redi_id" ref="geo_redi_LLL"/>
+	</record>
+	
+	<record id="geo_est_ARA" model="estados">
+		<field name="codigo">ARA</field>
+		<field name="estado">Aragua</field>
+		<field name="redi_id" ref="geo_redi_ZC"/>
+	</record>
+	
+	<record id="geo_est_BAR" model="estados">
+		<field name="codigo">BAR</field>
+		<field name="estado">Barinas</field>
+		<field name="redi_id" ref="geo_redi_LLL"/>
+	</record>
+
+	<record id="geo_est_BOL" model="estados">
+		<field name="codigo">BOL</field>
+		<field name="estado">Bolívar</field>
+		<field name="redi_id" ref="geo_redi_GUA"/>
+	</record>
+	
+	<record id="geo_est_CAR" model="estados">
+		<field name="codigo">CAR</field>
+		<field name="estado">Carabobo</field>
+		<field name="redi_id" ref="geo_redi_ZC"/>
+	</record>
+	
+	<record id="geo_est_COJ" model="estados">
+		<field name="codigo">COJ</field>
+		<field name="estado">Cojedes</field>
+		<field name="redi_id" ref="geo_redi_LLL"/>
+	</record>
+	
+	<record id="geo_est_DEA" model="estados">
+		<field name="codigo">DEA</field>
+		<field name="estado">Delta Amacuro</field>
+		<field name="redi_id" ref="geo_redi_GUA"/>
+	</record>
+
+	<record id="geo_est_DTO" model="estados">
+		<field name="codigo">DTO</field>
+		<field name="estado">Distrito Capital</field>
+		<field name="redi_id" ref="geo_redi_ZC"/>
+	</record>
+
+	<record id="geo_est_FAL" model="estados">
+		<field name="codigo">FAL</field>
+		<field name="estado">Falcón</field>
+		<field name="redi_id" ref="geo_redi_OCC"/>
+	</record>
+
+	<record id="geo_est_GUA" model="estados">
+		<field name="codigo">GUA</field>
+		<field name="estado">Guárico</field>
+		<field name="redi_id" ref="geo_redi_LLL"/>
+	</record>
+
+	<record id="geo_est_LAR" model="estados">
+		<field name="codigo">LAR</field>
+		<field name="estado">Lara</field>
+		<field name="redi_id" ref="geo_redi_OCC"/>
+	</record>
+
+	<record id="geo_est_MER" model="estados">
+		<field name="codigo">MER</field>
+		<field name="estado">Mérida</field>
+		<field name="redi_id" ref="geo_redi_AND"/>
+	</record>
+	
+	<record id="geo_est_MIR" model="estados">
+		<field name="codigo">MIR</field>
+		<field name="estado">Miranda</field>
+		<field name="redi_id" ref="geo_redi_ZC"/>
+	</record>
+
+	<record id="geo_est_MON" model="estados">
+		<field name="codigo">MON</field>
+		<field name="estado">Monagas</field>
+		<field name="redi_id" ref="geo_redi_ORI"/>
+	</record>
+
+	<record id="geo_est_NVA" model="estados">
+		<field name="codigo">NVA</field>
+		<field name="estado">Nueva Esparta</field>
+		<field name="redi_id" ref="geo_redi_INS"/>
+	</record>
+
+	<record id="geo_est_POR" model="estados">
+		<field name="codigo">POR</field>
+		<field name="estado">Portuguesa</field>
+		<field name="redi_id" ref="geo_redi_LLL"/>
+	</record>
+
+	<record id="geo_est_SUC" model="estados">
+		<field name="codigo">SUC</field>
+		<field name="estado">Sucre</field>
+		<field name="redi_id" ref="geo_redi_ORI"/>
+	</record>
+
+	<record id="geo_est_TAC" model="estados">
+		<field name="codigo">TAC</field>
+		<field name="estado">Táchira</field>
+		<field name="redi_id" ref="geo_redi_AND"/>
+	</record>
+
+	<record id="geo_est_TRU" model="estados">
+		<field name="codigo">TRU</field>
+		<field name="estado">Trujillo</field>
+		<field name="redi_id" ref="geo_redi_AND"/>
+	</record>
+	
+	<record id="geo_est_VAR" model="estados">
+		<field name="codigo">VAR</field>
+		<field name="estado">Vargas</field>
+		<field name="redi_id" ref="geo_redi_ZC"/>
+	</record>
+
+	<record id="geo_est_YAR" model="estados">
+		<field name="codigo">YAR</field>
+		<field name="estado">Yaracuy</field>
+		<field name="redi_id" ref="geo_redi_OCC"/>
+	</record>
+
+	<record id="geo_est_ZUL" model="estados">
+		<field name="codigo">ZUL</field>
+		<field name="estado">Zulia</field>
+		<field name="redi_id" ref="geo_redi_OCC"/>
+	</record>
+
+	</data>
+</openerp>

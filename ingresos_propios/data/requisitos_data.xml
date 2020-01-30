@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	<!-- Regiones Estartegicas de Defensa Integral -->
+	
+	<!-- Redi zona Central: Distrito Capital, Miranda, Aragua y Carabobo, Vargas -->
+	<record id="requisitos_01" model="requisitos">
+		<field name="nombre">Planilla de Solicitud</field>
+	</record>
+	<record id="requisitos_02" model="requisitos">
+		<field name="nombre">Proyecto General de la actividad (Objetivo, alcance, ubicación geográfica, fotografía de área a ocupar, tiempo estimado de ejecución, Tipo de servicio que prestará, Incluir Tarifas a ser aplicadas, en caso de servicio de transporte señalar cantidad de viajes y frecuencia). </field>
+	</record>
+<!--
+	</record>
+-->
+	<record id="requisitos_03" model="requisitos">
+		<field name="nombre">Proyecto de Inversión inicial (proyección de ingresos y egresos visado por un contador público y en caso de requerir reparación, adecuación o construcción para el desarrollo de la actividad especificar) </field>
+	</record>
+	<record id="requisitos_04" model="requisitos">
+		<field name="nombre">Copia Certificada de Registro Mercantil (en caso de ser persona jurídica) o registro de Firma Personal (en caso de persona natural). </field>
+	</record>
+	<record id="requisitos_05" model="requisitos">
+		<field name="nombre">Registro de Inscripcion en la Sunacoop, Acta Constitutiva y Estatutos (en caso de ser cooperativa). </field>
+	</record>
+	<record id="requisitos_06" model="requisitos">
+		<field name="nombre">Copia de la Cédula de Identidad del solicitante. </field>
+	</record>
+	<record id="requisitos_07" model="requisitos">
+		<field name="nombre">Copia del Registro de Información Fiscal (RIF) </field>
+	</record>
+	<record id="requisitos_08" model="requisitos">
+		<field name="nombre">Ultima Declaracion de Impuesto Sobre la Renta (I.S.L.R.) </field>
+	</record>
+	<record id="requisitos_09" model="requisitos">
+		<field name="nombre">Estadi Financiero al último cierre del ejercicio (Balance General, Estado de Ganacias y Pérdidas, y Balace de Comprobación).  </field>
+	</record>
+	<record id="requisitos_10" model="requisitos">
+		<field name="nombre">Ultimas (4) Declaraciones de Impuesto al Valor Agregado (I.V.A) anteriores a la solicitud. </field>
+	</record>
+	<record id="requisitos_11" model="requisitos">
+		<field name="nombre">Estado Financiero al último cierre mensual antes de la solicitud (Balance General, Estado de Ganancia y Pérdidas, y Balance de Comprobación). </field>
+	</record>
+	<record id="requisitos_12" model="requisitos">
+		<field name="nombre">Referencias Bancarias </field>
+	</record>
+	<record id="requisitos_13" model="requisitos">
+		<field name="nombre">Indicar las medidas a ser implatadas para garantizar la seguridad de los usuarios del servicio en la realización de la actividad (equipos, enseres, etc.). </field>
+	</record>
+	<record id="requisitos_14" model="requisitos">
+		<field name="nombre">Copia del Certificación de Salud de todo el personal contratado y Permiso Sanitario (en caso de expendio de alimentos). </field>
+	</record>
+	<record id="requisitos_15" model="requisitos">
+		<field name="nombre">Licencia de Navegación y Patrón de Navegación Vigentes (en caso de poseer embarcaciones indispensables para prestar servicio.) </field>
+	</record>
+	<record id="requisitos_16" model="requisitos">
+		<field name="nombre"> Titulo de Propiedad de vehículos (en caso de Trasporte Terrestre). </field>
+	</record>
+	
+	</data>
+
+</openerp>

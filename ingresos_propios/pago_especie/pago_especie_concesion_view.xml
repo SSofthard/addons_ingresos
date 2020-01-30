@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+        <data>
+            <record id="concesiones_inherit2" model="ir.ui.view">
+            <field name="name">concesiones_inherit</field>
+            <field name="model">concesiones</field>
+            <field name="inherit_id" ref="ingresos_propios.view_concesiones_form" />
+            <field name="arch" type="xml">
+                <notebook colspan="4" position='inside'>
+                    <page string="Pago en Especies">
+                        <group>
+                            <field name="pago_especie_concesion_ids" colspan="4" />
+                        </group>
+                    </page>
+                    </notebook>
+            </field>
+        </record>
+            
+            <record model="ir.ui.view" id="view_pago_especie_concesion_form">
+                <field name="name">pago_especie_concesion.form</field>
+                <field name="model">pago_especie_concesion</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="pago_especie">
+                <header>
+                   
+                        <button name="no_ejecutado" string="NO Ejecutado" type="object"   states="draft"  class="oe_highlight"/>
+                        <button name="ejecutado"    string="Ejecutado"    type="object"   states="draft"    class="oe_highlight"/>
+                        <button name="mora"         string="En Mora"      type="object"   states="draft"    class="oe_highlight"/>
+                       
+                        <t t-if="state == 'unexecuted'">
+                            <button name="ejecutado"    string="Ejecutado"    type="object"   states="unexecuted"       class="oe_highlight"/>
+                            <button name="mora"         string="En Mora"      type="object"   states="unexecuted"       class="oe_highlight"/>
+                        </t>
+                    
+                        <t t-if="state == 'executed'">
+                            <button name="no_ejecutado" string="NO Ejecutado" type="object"   states="executed"         class="oe_highlight"/>                  
+                            <button name="mora"         string="En Mora"      type="object"   states="executed"         class="oe_highlight"/>
+                        </t> 
+
+                        <t t-if="state == 'overdue'"> 
+                            <button name="ejecutado"    string="Ejecutado"    type="object"   states="overdue"          class="oe_highlight"/>    
+                            <button name="no_ejecutado" string="NO Ejecutado" type="object"   states="overdue"          class="oe_highlight"/>         
+                        </t>    
+                       
+
+
+                        
+            
+                    <field  name="state" widget="statusbar"/>
+                </header>
+                        <sheet>
+                            <group col="2" colspan="4">
+<!--
+                                        <separator string="Pago en especie" colspan="4"/>
+-->
+                                            <field name="especie_id" style= "width:45%%"/>
+                                        <separator string="Condicion del pago" colspan="4"/>
+                                            <field name="condicion_id" style= "width:45%%"/>
+                                        <separator string="Fecha de pago" colspan="4"/>
+                                            <field name="fecha_pago" /> 
+                                        <separator string="" colspan="4"/>
+                                    
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+            
+            
+            <record model="ir.ui.view" id="view_pago_especie_concesion_tree">
+                <field name="name">pago_especie_concesion.tree</field>
+                <field name="model">pago_especie_concesion</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="pago_especie">
+                            <field name="especie_id" />
+                            <field name="fecha_pago" />
+                            <field name="state"/>
+                    </tree>
+                </field>
+            </record>
+    
+    
+    
+    <record model="ir.actions.act_window" id="action_pago_especie_concesion">
+        <field name="name">Pago en especie</field>
+        <field name="res_model">pago_especie_concesion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+     <menuitem name="Pago en especie" id="sidebarpago_especie_" action="action_pago_especie_concesion" parent="menu_reg_conc" sequence="2" />
+    
+    </data>
+</openerp>
+

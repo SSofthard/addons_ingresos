@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	<!-- Configuracion Alcances de Telecomunicacion -->
+	
+	<!-- Alcances para Empresas de TV y Telefonia Publica y Celular. -->
+    
+    <record id="Alcance_Nacional_Tv_Tlf_Pub_Cel" model="alcance">
+		<field name="name">Alcance Nacional</field>
+        <field name="codigo">AN</field>
+		<field name="tarifas_propuestas_id" ref="tarifas_propuestas_Tv_Cel_Tel_pub"/>
+	</record>
+    <record id="Alcance_Nacional_Tv_Tlf_Pub_Celu" model="alcance">
+		<field name="name">Alcance Regional</field>
+        <field name="codigo">AR</field>
+		<field name="tarifas_propuestas_id" ref="tarifas_propuestas_Tv_Cel_Tel_pub"/>
+	</record>
+    
+    <!-- Alcances para Empresas de Radio y otros servicios de Telecomunicacion. -->
+    
+	<record id="Alcance_Rad_Serv_Tel" model="alcance">
+		<field name="name">Alcance Nacional y/o Dtto Capital</field>
+        <field name="codigo">AN-DC</field>
+		<field name="tarifas_propuestas_id" ref="tarifas_propuestas_Rad_Serv_Tel"/>
+	</record>
+    <record id="Alcance_Rad_Serv_Telf" model="alcance">
+		<field name="name">Alcance Regional</field>
+        <field name="codigo">AR-DC</field>
+		<field name="tarifas_propuestas_id" ref="tarifas_propuestas_Rad_Serv_Tel"/>
+	</record>
+    </data>
+
+</openerp>

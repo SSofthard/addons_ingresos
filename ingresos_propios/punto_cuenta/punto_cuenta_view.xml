@@ -1,0 +1,353 @@
+<?xml version="1.0"  encoding="utf-8"?>
+<openerp>
+<data>
+
+    <record model="ir.ui.view" id="view_tipo_tramite_form">
+        <field name="name">tipo_tramite.form</field>
+        <field name="model">tipo_tramite</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="tipo_tramite">
+                <field name="nombre" select="1"/>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tipo_tramite_tree">
+        <field name="name">tipo_tramite.tree</field>
+        <field name="model">tipo_tramite</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="tipo_tramite">
+                <field name="nombre"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_tipo_tramite">
+        <field name="name">Tipo de tramite</field>
+        <field name="res_model">tipo_tramite</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_departamento_form">
+        <field name="name">departamento.form</field>
+        <field name="model">departamento</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="departamento">
+                <field name="nombre" select="1"/>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_departamento_tree">
+        <field name="name">departamento.tree</field>
+        <field name="model">departamento</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="departamento">
+                <field name="nombre"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_departamento">
+        <field name="name">Para el departamento</field>
+        <field name="res_model">departamento</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_punto_cuenta_form">
+        <field name="name">punto_cuenta.form</field>
+        <field name="model">punto.cuenta</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+		<form string="punto_cuenta">
+            
+            <header>
+			<button name="pc_aprobado" string="Aprobado" type="object" states="generado" class="oe_highlight"/>
+			<button name="pc_negado" string="Negado" type="object"  class="oe_highlight"/>
+			<button name="pc_aprobado" string="Aprobado" type="object" states="negado" class="oe_highlight"/>
+			<button name="pc_cancelado" string="Cancelado" type="object" class="oe_highlight"/>
+            <button name="generar_contrato_concesiones" string="Generar Contrato" type="object" states="aprobado" class="oe_highlight"/>
+			<field name="state" widget="statusbar"/>
+            
+		    </header>
+		    
+		    <sheet>
+                
+                <div class="oe_right oe_button_box">
+                    <button name="action_get_attachment_tree_view" 
+                        class="oe_stat_button"
+                        icon="fa-book"
+                        type="object">
+                        <field name="attachment_number" widget="statinfo" string="Documentos"/>
+                    </button>
+                    </div>
+		    <group col="4" columns="4">
+			<separator string="Punto de Cuenta" colspan="4"/>
+			<field name="para_dpto_id" select="0"/>
+			<field name="nro_control" select="1"/>
+			<field name="de_dpto_id" select="0"/>
+			<field name="fecha" string="Fecha de Emision"/>
+			<field name="unidad_origen"/>
+			<field name="tipo_tramite_id" select="0"/>
+		    </group>
+
+		    <group>
+			<separator string="Asunto"/>
+			    <group colspan="4">
+			    <field name="proyecto" style="width:45%%"/>
+                <field name="objeto" style="width:100%%"/>
+                </group>
+		    </group>
+            
+            
+            
+		    
+			<group col="4" columns="4" >
+                <separator string="Contrato" colspan="4"/>
+<!--
+                <field name="canon_id" attrs="{'readonly': [('punto','=',False)],'invisible': [('punto','=',True)]}"/>
+-->
+                <field name="partner_id" attrs="{'readonly': [('punto','=',False)]}"/>
+			    <field name="monto_letras" style="width:45%%"/>
+                <field name="monto_numero" style="width:45%%" attrs="{'readonly': [('punto','=',False)]}"/>
+			    <field name="lapso_ejecucion"/>
+			    <field name="nro_contrato"/>
+		    </group>
+            
+		     <group col="4" columns="4">
+		    <field name="active" invisible="True"/>
+		    <field name="punto" invisible="True"/>
+		    </group>
+            
+		    <separator string="Relación" colspan="4"/>
+		    <notebook colspan="4">
+			<page string="Descripción del Objeto">
+			    <separator string="" colspan="4"/>
+			    <field name="descripcion_objeto"/>
+			</page>
+			<page string="Justificación del Objeto">
+			    <separator string="" colspan="4"/>
+			    <field name="justificacion_objeto"/>
+			</page>
+			<page string="Proposicion">
+			    <separator string="" colspan="4"/>
+			    <field name="proposicion"/>
+			</page>
+		    </notebook>
+            
+<!--
+            <separator string="Relacion Proposición" colspan="4"/>
+			    <field name="proposicion_tipo_id"/>
+			    <field name="porciento" />
+			    <field name="categoria_ids" context="{'default_proposicion_tipo_id':proposicion_tipo_id, 'default_porciento':porciento}"/>
+-->
+                
+<!--
+            <separator string="Imputacion Presupuestaria" colspan="4"/>
+			    <field name="imputacion_presupuestaria_ids"/>
+-->
+		     </sheet>
+             
+              <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_punto_cuenta_tree">
+        <field name="name">punto_cuenta.tree</field>
+        <field name="model">punto.cuenta</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="punto_cuenta">
+                <field name="nro_control"/>
+                <field name="fecha" string="Fecha de Factura"/>
+                <field name="para_dpto_id"/>
+                <field name="unidad_origen"/>
+		        <field name="tipo_tramite_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_punto_cuenta">
+        <field name="name">Punto de Cuenta</field>
+        <field name="res_model">punto.cuenta</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+<!--
+    <record model="ir.ui.view" id="view_imputacion_presupuestaria_form">
+        <field name="name">imputacion.presupuestaria.form</field>
+        <field name="model">imputacion.presupuestaria</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="imputacion">
+                <group>
+                <field name="partidas" select="1"/>
+                <field name="denominacion" select="1"/>
+                <field name="disponibilidad_anterior" select="1"/>
+                <field name="monto_imputar" select="1"/>
+                <field name="disponibilidad_actual" select="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_imputacion_presupuestaria_tree">
+        <field name="name">imputacion.presupuestaria.tree</field>
+        <field name="model">imputacion.presupuestaria</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="imputacion">
+                <field name="partidas" />
+                <field name="denominacion"/>
+                <field name="disponibilidad_anterior"/>
+                <field name="monto_imputar"/>
+                <field name="disponibilidad_actual"/>
+            </tree>
+        </field>
+    </record>
+-->
+    
+    <record model="ir.ui.view" id="view_relacion_proposicion_form">
+        <field name="name">relacion.proposicion.form</field>
+        <field name="model">relacion.proposicion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="relacion_proposicion">
+                <group>
+                <field name="proposicion_tipo_id" readonly="1" />
+                <field name="proposicion_sub_tipo_id" domain="[('proposicion_tipo_id','=', proposicion_tipo_id)]"/>
+                <field name="monto" readonly="0"  on_change="monto_multa(monto,porciento)"/>
+                <field name="porciento" invisible="1"/>
+                <field name="embarcacion"  string= "Multa de Dueños de Embarcacion"/>
+                <field name="marinas_estacionamiento"  string="Multa de Marinas y Estacionamientos"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_relacion_proposicion_tree">
+        <field name="name">relacion.proposicion.tree</field>
+        <field name="model">relacion.proposicion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="relacion_proposicion">
+                <field name="proposicion_sub_tipo_id"/>
+                <field name="monto"/>
+                <field name="embarcacion" string= "Multa de Dueños de Embarcacion"/>
+                <field name="marinas_estacionamiento" string="Multa de Marinas y Estacionamientos"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_relacion_proposicion">
+        <field name="name">Punto de Cuenta</field>
+        <field name="res_model">relacion.proposicion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.ui.view" id="view_proposicion_tipo_form">
+        <field name="name">proposicion_tipo.form</field>
+        <field name="model">proposicion_tipo</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="proposicion_tipo">
+                <group>
+                <field name="nombre"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_proposicion_tipo_tree">
+        <field name="name">proposicion_tipo.tree</field>
+        <field name="model">proposicion_tipo</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="proposicion_tipo">
+                <field name="nombre"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_proposicion_tipo">
+        <field name="name">Tipo Proposicion</field>
+        <field name="res_model">proposicion_tipo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record model="ir.ui.view" id="view_proposicion_sub_tipo_form">
+        <field name="name">proposicion_sub_tipo.form</field>
+        <field name="model">proposicion_sub_tipo</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="proposicion_sub_tipo">
+                <group>
+                <field name="nombre"/>
+                <field name="proposicion_tipo_id"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_proposicion_sub_tipo_tree">
+        <field name="name">proposicion_sub_tipo.tree</field>
+        <field name="model">proposicion_sub_tipo</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="proposicion_sub_tipo">
+                <field name="proposicion_tipo_id"/>
+                <field name="nombre"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_proposicion_sub_tipo">
+        <field name="name">Tipo Sub Proposicion</field>
+        <field name="res_model">proposicion_sub_tipo</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+     <record id="concesion_inherit" model="ir.ui.view">
+            <field name="name">concesion_inherit</field>
+            <field name="model">concesiones</field>
+            <field name="inherit_id" ref="view_concesiones_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" select="1" position="before">
+<!--
+                    <field name="canon_id" select="1" attrs="{'readonly': [('control_conc','=',False)],'invisible': [('control_conc','=',True)]}"/>
+-->
+                    <field name="punto_cuenta_id" select="1"  attrs="{'readonly': [('control_conc','=',False)],'invisible': [('control_conc','=',True)]}"/>
+                    <field name="control_conc" invisible='True'/>
+                </field> 
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" store="True" attrs="{'readonly': [('control_conc','=',False)],'invisible': [('control_conc','=',True)]}"/>
+                </field>
+<!--
+                <field name="registro_parque_id" position="replace">
+                    <field name="registro_parque_id" attrs="{'readonly': [('control_conc','=',False)],'invisible': [('control_conc','=',True)]}"/>
+                </field>
+-->
+                <field name="pago_mensual" position="replace">
+                    <field name="pago_mensual" attrs="{'readonly': [('control_conc','=',False)],'invisible': [('control_conc','=',True)]}"/>
+                </field>
+                
+            </field>
+          </record>
+    
+    <menuitem name="Gestion Punto de Cuenta" id="menu_pc" parent="ingresos_propios.menu_general_ingresos_propios" sequence="60"/>
+        <menuitem name="Registro Punto de Cuenta" id="sub_menu_pc" parent="menu_pc"/>
+<!--
+            <menuitem name="Tipo de tramite" id="menu_tipo_tramite" action="action_tipo_tramite" parent="sub_menu_pc" sequence="30"/>
+            <menuitem name="Departamento" id="menu_departamento" action="action_departamento"  parent="sub_menu_pc" sequence="20"/>
+-->
+            <menuitem name="Punto de Cuenta" id="menu_punto_cuenta" action="action_punto_cuenta" parent="sub_menu_pc" sequence="0"/>
+<!--
+            <menuitem name="Detalle de la Proposicion" id="menu_relacion_proposicion" action="action_relacion_proposicion" parent="sub_menu_pc" sequence="0"/>
+-->
+<!--
+            <menuitem name="Tipo Proposicion" id="menu_tipo_proposicion" action="action_proposicion_tipo" parent="sub_menu_pc" sequence="40"/>
+            <menuitem name="Tipo Sub Proposicion" id="menu_sub_tipo_proposicion" action="action_proposicion_sub_tipo" parent="sub_menu_pc" sequence="40"/>
+-->
+        
+</data>
+</openerp>

@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="id_punto_cuenta_qweb">
+    
+<style type="text/css">
+    .margen_top-10{
+        margin-top: 0px;
+    }
+    .margen_top-20{
+        margin-top: -10px;
+    }
+    .margen_bottom-10{
+        margin-bottom: 0px;
+    }
+    .margen_izq{
+        margin-left: -10px;
+    }
+    .margen_bottomm{
+         margin-bottom: 5px;
+    }
+    .border_top {
+    border-top:1px solid black;
+    }
+    .border_der {
+    border-right:1px solid black;
+    padding-right: 0px;
+    }
+    .border_izq_pb6px {
+    border-left:1px solid black;
+    padding-bottom: 6px;
+    }
+    .border_izq_pb20px {
+    border-left:1px solid black;
+    padding-bottom: 20px;
+    }
+    .border_izq_pb30px {
+    border-left:1px solid black;
+    padding-bottom: 50px;
+    }
+    .border_izq_pb40px {
+    border-left:1px solid black;
+    padding-bottom: 40px;
+    }
+    .border_izq_pb70px {
+    border-left:1px solid black;
+    padding-bottom: 70px;
+    }
+    .border_izq_pb80px {
+    border-left:1px solid black;
+    padding-bottom: 90px;
+    }
+    .border_izq {
+    border-left:1px solid black;
+    padding-left: 0px;
+    }
+    .border_arriba {
+    border-top: 1px solid black
+    padding-top: 0px;
+    }
+    }
+    .border_abajo {
+    border-bottom: 1px solid black;
+    padding-bottom: 0px;
+    }
+    .border_abajo10 {
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+    }
+    .border_abajo39 {
+    border-bottom: 1px solid black;
+    padding-bottom: 39px;
+    }
+    .border_abajo26 {
+    border-bottom: 1px solid black;
+    padding-bottom: 26px;
+    }
+    }
+    .border_completo{
+        border: 1px solid black;
+        padding-bottom: 1px;
+    }
+    
+      h7 { color:black; display:block;font-size: 7px;margin-top:2.33em;
+      margin-bottom:2.33em;margin-left:0;
+      margin-right:0;font-weight:bold;
+      }
+</style>
+
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="row">
+<!--
+Vista punto de cuenta               
+-->
+                    <div class="col-xs-10">
+                            </div> 
+                            <div class="col-xs-2">
+                            <p class="text-left">    
+                            <strong> N° Control </strong>
+                            <span t-field=" o.nro_control"/>
+                            </p>
+                    </div> 
+                    </div>
+                        <h5><span><justify>
+                    <div class="row mt32" style="border: 1px solid black;">
+                        <h4>
+                        <span><center><strong>Punto de Cuenta</strong></center></span>
+                        </h4>
+                    <div class="row">
+                    <div class="col-xs-2">
+                        <strong>Para: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <span t-field =" o.para_dpto_id"/>
+                    </div> 
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-2">
+                        <strong>De: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <span t-field=" o.de_dpto_id"/>
+                    </div> 
+                    </div> 
+                    <div class="row">
+                    <div class="col-xs-2">
+                        <strong>Unidad de Origen: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <span t-field=" o.unidad_origen"/>
+                    </div> 
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-3">
+                        <strong>Fecha de Emisión: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.fecha"/>
+                    </div> 
+                    <div class="col-xs-3">
+                        <strong>Tipo de tramite: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.tipo_tramite_id"/>
+                    </div> 
+                    </div>
+                    </div>
+                 </justify></span></h5> 
+<!--
+   Vista Asunto                
+-->
+                    <div class="row mt32" style="border: 1px solid black;">
+                        <h5>
+                        <span><center><strong>Asunto</strong></center></span>
+                        </h5>
+                    <div class="row">
+                    <div class="col-xs-2">
+                        <strong>Proyecto: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <span t-field=" o.proyecto"/>
+                    </div> 
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-2">
+                        <strong>Objeto: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <p class="text-justify">
+                        <span t-field=" o.objeto"/>
+                        </p>
+                    </div> 
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-3">
+                        <strong>Monto en Letras: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.monto_letras"/>
+                    </div> 
+                    <div class="col-xs-3">
+                        <strong>Monto en Número: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.monto_numero"/>
+                    </div> 
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-3">
+                        <strong>Lapso de Ejecución: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.lapso_ejecucion"/>
+                    </div> 
+                    <div class="col-xs-3">
+                        <strong>Número de Contrato: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.nro_contrato"/>
+                    </div> 
+                    </div>
+                    <div class="row">
+                    <div class="col-xs-3">
+                        <strong>Beneficiario: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.partner_id"/>
+                    </div> 
+                    <div class="col-xs-3">
+                        <strong>Telefono: </strong>
+                    </div> 
+                    <div class="col-xs-3">
+                        <span t-field=" o.partner_id.phone"/>
+                    </div> 
+                    </div>   
+                    </div>
+<!--
+Vista relacion
+-->
+                    <div class="row mt32" style="border: 1px solid black;">
+                        <h5>
+                        <span><center><strong>Relación</strong></center></span>
+                        </h5>   
+                    <div class="row">
+                    <div class="col-xs-2">
+                        <strong>Descripción del Objeto: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <p class="text-justify">
+                        <span t-field=" o.descripcion_objeto"/>
+                        </p>
+                    </div>
+                    </div> 
+                    <div class="row">                
+                    <div class="col-xs-2">
+                        <strong>Justificación del Objeto: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <p class="text-justify">
+                        <span t-field=" o.justificacion_objeto"/>
+                        </p>
+                    </div> 
+                    </div>
+                    <div class="row">                
+                    <div class="col-xs-2">
+                        <strong>Proposición: </strong>
+                    </div> 
+                    <div class="col-xs-10">
+                        <p class="text-justify">
+                        <span t-field=" o.proposicion"/>
+                        </p>
+                    </div> 
+                    </div>
+                    </div>
+                    
+                   <!--
+Pie de Pagina
+-->
+            <div class="row mt32" style="border: 1px solid black;">
+            <div class="row ">
+               <div class="row">
+               <div class="col-xs-2 "></div>
+               <div class="col-xs-2"> Hola</div>
+               <div class="col-xs-2">hola</div>
+               <div class="col-xs-2">hola</div>
+               <div class="col-xs-4">Comentarios:</div>
+               </div>
+            <div class="row">
+               <div class="col-xs-2"></div>
+               <div class="col-xs-2 ">
+                   <h7><strong>aprobado diferido negado</strong></h7></div>
+               <div class="col-xs-2  ">
+                   <h7><strong>aprobado diferido negado</strong></h7></div>
+               <div class="col-xs-2 ">
+                   <h7><strong>aprobado diferido negado</strong></h7></div>
+                   </div>
+               </div>
+           
+                    
+            <div class="row"> 
+                <div class="col-xs-2 "><h6><strong>Jorgue Cristo Director General Sectorial</strong></h6></div>
+               <div class="row ">
+               <div class="col-xs-2 border_izq_pb30px margen_top-10"><h6><strong>Maria Isabel Godoy Presidente</strong></h6></div>
+               <div class="col-xs-2 border_izq_pb70px "><h6><strong>Junta Directiva</strong></h6></div>
+               <div class="col-xs-2 border_izq_pb80px"><h6><strong>Ministro(a)</strong></h6></div>
+               <div class="col-xs-4 "></div>
+               </div> 
+               </div> 
+           
+            <div class="row"> 
+                <p class="text-center">
+                <div class="col-xs-8 border_top border_arriba">JC/DL</div>
+               <div class="col-xs-4 border_top">Pág  1/1</div>
+               </p>
+               </div> 
+               </div>
+                    
+                    
+                    
+<!--
+Vista Proposicion
+-->
+                    </div>
+                </t>
+                <t t-call="report.external_layout">
+                    <div class="page">
+                    <div class="row">
+                    <div class="col-xs-10">
+                    </div> 
+                    <div class="col-xs-2">
+                        <p class="text-left">    
+                        <strong> N° Control </strong>
+                        <span t-field=" o.nro_control"/>
+                        </p>
+                    </div> 
+                    </div> 
+<!--
+                    vamos por aqui
+-->
+                    <h5>
+                        <span>
+                            <justify>
+                                <div class="row mt32" style="border: 1px solid black;">
+                                        
+                                            <h4>
+                                             <span><center><strong>Punto de Cuenta</strong></center></span>
+                                            </h4>
+                                            
+                                           <div class="row">
+                                                   
+                                                    <div class="col-xs-2">
+                                                    <strong>Para: </strong>
+                                                    </div> 
+                                                    <div class="col-xs-10">
+                                                    <span t-field =" o.para_dpto_id"/>
+                                                    </div> 
+                                            </div>
+                                            
+                                            <div class="row">
+                                                    <div class="col-xs-2">
+                                                    <strong>De: </strong>
+                                                    </div> 
+                                                    <div class="col-xs-10">
+                                                    <span t-field=" o.de_dpto_id"/>
+                                                    </div> 
+                                            </div> 
+                                            
+                                            <div class="row">
+                                                    <div class="col-xs-2">
+                                                    <strong>Unidad de Origen: </strong>
+                                                    </div> 
+                                                    <div class="col-xs-10">
+                                                    <span t-field=" o.unidad_origen"/>
+                                                    </div> 
+                                            </div>
+                                                
+                                             <div class="row">
+                                                    <div class="col-xs-3">
+                                                    <strong>Fecha de Emision: </strong>
+                                                    </div> 
+                                                    <div class="col-xs-3">
+                                                    <span t-field=" o.fecha"/>
+                                                    </div> 
+                                                    <div class="col-xs-3">
+                                                    <strong>Tipo de tramite: </strong>
+                                                    </div> 
+                                                    <div class="col-xs-3">
+                                                    <span t-field=" o.tipo_tramite_id"/>
+                                                    </div> 
+                                                </div>
+                                    </div>
+                                 </justify>
+                         </span>
+                 </h5>
+                 
+<!--
+Relacion proposicion 
+-->
+
+
+           
+            <div class="row mt32 " style="border: 1px solid black;">
+                <div class="row">
+                    <div class="col-xs-2" >
+                            <strong>Proposición: </strong>
+                            </div> 
+                            <div class="col-xs-10 border_izq border_abajo10">
+                                Se detalla tarifas propuesta:
+                            </div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-xs-2 ">
+                        </div>
+                        <div class="col-xs-10 ">
+                            
+                    <div class="row" >
+                        <div class="col-xs-4 border_abajo26  border_izq" >
+                         <h6><strong><span t-field="o.proposicion_tipo_id"/></strong></h6>
+                        </div>
+                        <div class="col-xs-2 border_abajo39 border_izq ">
+                        <h6><strong>MONTO UT</strong></h6>
+                        </div>
+                        <div class="col-xs-6">
+                            
+                    <div class="row ">
+                        <div class="col-xs-8 border_izq">
+                           <strong> Por Multas Equivalente al</strong>
+                        <span t-field="o.porciento"/>%
+                        </div>
+                    </div>
+                    
+                    <div class="row border_top">
+                        <div class="col-xs-6 border_izq border_abajo10"><strong>Dueño de Embarcación.</strong>
+                        </div>
+                        <div class="col-xs-6 border_izq border_abajo10"><strong>Marinas y Estacionamiento.</strong>
+                        </div>
+                    </div>
+                </div>
+                            
+                                
+                 <t t-foreach="o.categoria_ids" t-as="cat_id">
+                    
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <h6><span t-field="cat_id.proposicion_sub_tipo_id.nombre"/></h6>
+                        </div>
+                      <div class="col-xs-2">
+                        <span t-field="cat_id.monto"/>
+                      </div>
+                      <div class="col-xs-2">
+                        <span t-field="cat_id.embarcacion"/>
+                      </div>
+                      <div class="col-xs-3">
+                        <span t-field="cat_id.marinas_estacionamiento"/>
+                      </div>
+                    </div>
+                  </t>
+                </div>
+            </div>
+        </div>
+                    <div class="row">
+                        <div class="col-xs-2 " >
+                            </div>
+                        <div class="col-xs-10 border_izq">
+                            <p class="text-justify">
+                            La tarifas propuestas se cobrarian anualmente y la autorización tendrá vigencia de un año calendario 
+                            desde el 01 de enero al 31 de diciembre y serán aplicadas a partir del año 2014
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+<!--
+   Vista imputacion presupuestarias          
+-->
+      
+
+               <div class="row mt32" style="border: 1px solid black;">
+               <div class="row" style="border: 1px solid black;">
+               <h5>
+                    <span><center><strong>Imputacion Presupuestaria</strong></center></span>
+               </h5>
+               </div>
+               <div class="row" >
+               <div class="col-xs-8 ">
+               <div class="row ">
+               <div class="col-xs-3 "><strong>Partidas</strong></div>
+               <div class="col-xs-3 border_izq_pb6px">N/A</div>
+               <div class="col-xs-3 border_izq_pb6px">N/A</div>
+               <div class="col-xs-3 border_izq_pb6px">N/A</div>
+               </div>
+               </div>
+               <div class="col-xs-4  ">
+               <div class="row border_izq" >
+               <div class="col-xs-12 ;"><strong><h6 class="margen_bottom-10 margen_top-10">Sello de Certificación de Disponibilidad Presupuestaria</h6></strong></div>
+               </div>
+               </div>
+               </div>
+               <div class="row" >
+               <div class="col-xs-8 border_top">
+               <div class="row">
+               <div class="col-xs-3 "><strong>Denominacion</strong></div>
+               <div class="col-xs-3 border_izq_pb6px">N/A</div>
+               <div class="col-xs-3 border_izq_pb6px">N/A</div>
+               <div class="col-xs-3 border_izq_pb6px border_der">N/A</div>
+               </div>
+               <div class="row">
+               <div class="col-xs-3 border_top "><strong>Disponibilidad Anterior BsF.</strong></div>
+               <div class="col-xs-3 border_top border_izq_pb20px ">N/A</div>
+               <div class="col-xs-3 border_top border_izq_pb20px ">N/A</div>
+               <div class="col-xs-3 border_top border_izq_pb20px border_der">N/A</div>
+               </div>
+               <div class="row" >
+               <div class="col-xs-3 border_top"><strong >Monto Imputar</strong></div>
+               <div class="col-xs-3 border_top border_izq_pb20px">N/A</div>
+               <div class="col-xs-3 border_top border_izq_pb20px">N/A</div>
+               <div class="col-xs-3 border_top border_izq_pb20px border_der">N/A</div>
+               </div>
+               <div class="row" >
+               <div class="col-xs-3 border_top "><strong >Disponibilidad Actual BsF.</strong></div>
+               <div class="col-xs-3 border_top border_izq_pb20px">N/A</div>
+               <div class="col-xs-3 border_top border_izq_pb20px">N/A</div>
+               <div class="col-xs-3 border_top border_izq_pb20px border_der">N/A</div>
+               </div>
+               </div>
+               <div class="col-xs-4 border_top"></div>
+               </div>
+               <div class="row">
+               <div class="col-xs-8 border_top"><strong>Total en Bolivares:</strong></div>
+               <div class="col-xs-4 border_top border_izq_pb6px">N/A</div>
+               </div>
+               <div class="row">
+               <div class="col-xs-7">
+               <div class="row">
+               <div class="col-xs-5 border_top"><strong>Fuente de Financiamiento:</strong></div>
+               <div class="col-xs-7 border_top border_izq_pb20px border_der">N/A</div>
+               </div>
+               <div class="row">
+               <div class="col-xs-5 border_top"><strong>Acción Especifica:</strong></div>
+               <div class="col-xs-7 border_top border_izq_pb6px border_der">N/A</div>
+               </div>
+               <div class="row">
+               <div class="col-xs-5 border_top"><strong>Anexos:</strong></div>
+               <div class="col-xs-7 border_top border_izq_pb6px border_der">N/A</div>
+               </div>
+               </div>
+               <div class="col-xs-5">
+               <div class="row">
+               <div class="col-xs-6 border_top"><strong>Código de acción Especifica:</strong></div>
+               <div class="col-xs-6 border_top border_izq_pb20px">N/A</div>
+               </div>
+               <div class="row">
+               <div class="col-xs-6 border_top"><strong>Unidad de Tramite de pago:</strong></div>
+               <div class="col-xs-6 border_top border_izq_pb33px">N/A</div>
+               </div>
+               </div>
+               </div>
+               </div>
+               
+               
+               
+
+
+
+
+             </div>
+            </t>
+        </t>
+    </t> 
+</template>
+    
+    
+</data>
+</openerp>
+
+
+
+

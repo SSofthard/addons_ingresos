@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_config_ingresos_brutos_form">
+        <field name="name">config_ingresos_brutos.form</field>
+        <field name="model">config_ingresos_brutos</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="ingresos_brutos">
+                <sheet>
+                <group>
+                <field name="nombre" select="1"/>
+                <field name="porcentaje" select="1"/>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_config_ingresos_brutos_tree">
+         <field name="name">config_ingresos_brutos.tree</field>
+        <field name="model">config_ingresos_brutos</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="ingresos_brutos">
+                <field name="nombre" />
+                <field name="porcentaje" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_config_ingresos_brutos">
+        <field name="name">config_ingresos_brutos</field>
+        <field name="res_model">config_ingresos_brutos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+            <menuitem id="menu_config_config_ingresos_brutos" name="Ingresos Brutos" parent="base.menu_config"
+            sequence="90" action="action_config_ingresos_brutos"/>
+
+    </data>
+</openerp>
+

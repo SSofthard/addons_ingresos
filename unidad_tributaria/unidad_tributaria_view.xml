@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_unidad_tributaria_config">
+        <field name="name">view_unidad_tributaria_config</field>
+        <field name="model">account.config.settings</field>
+        <field name="inherit_id" ref="account.view_account_config_settings"/>
+        <field name="arch" type="xml">
+
+                <field name="decimal_precision" class="oe_inline" position="after">
+                    <div>
+                        <label for="unidad_tributaria"/>
+                        <field name="unidad_tributaria" class="oe_inline"/>
+                    </div>
+                </field>
+                
+                
+             
+            
+        </field>
+    </record>
+    
+    
+
+    
+    </data>
+</openerp>

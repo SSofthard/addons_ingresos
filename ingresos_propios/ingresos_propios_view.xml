@@ -1,0 +1,1333 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+
+    <record id="act_stock_boletos_parque" model="ir.actions.act_window">
+            <field name="name">Distribucion de boletos</field>
+            <field name="res_model">ip.inventario.boletos.parque</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_parque_id': active_id}</field>
+            <field name="help" type="html">
+                  <p class="oe_view_nocontent_create">
+                    Click to create a quotation or sales order for this customer.
+                  </p>
+            </field>
+            </record>
+    <record id="act_etiquetas_asignadas_parque" model="ir.actions.act_window">
+        <field name="name">Etiquetas Asignadas</field>
+        <field name="res_model">ip.correlativo.generar</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('parque_id', '=', active_id)]</field>
+        <field name="context">{'search_default_parque_id': active_id}</field>
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a quotation or sales order for this customer.
+              </p>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_registro_parque_form">
+        <field name="name">registro_parque.form</field>
+        <field name="model">registro_parque</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="registro_parque">
+                <sheet>
+                    <button class="oe_inline oe_stat_button" type="action" name="%(act_stock_boletos_parque)d" 
+                        icon="fa-strikethrough">
+                        <field string="Boletos" name="cant_stock" widget="statinfo"/>
+                    </button>   
+                    <button class="oe_inline oe_stat_button" type="action" name="%(act_etiquetas_asignadas_parque)d" 
+                        icon="fa-strikethrough">
+                        <field string="Etiquetas" name="cant_etiquetas" widget="statinfo" />
+                    </button>
+                    <field name="image1" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                    <div class="oe_title oe_left">
+                        <div class="oe_edit_only">
+                            <label for="name" string="Datos del Parque"/> 
+                            <field name="is_company"
+                             invisible="1"
+                            on_change="onchange_type(is_company)"
+                            class="oe_inline"/> 
+                            <label for="is_company" string="Is a Company?" invisible="1"/>
+                        </div>
+                        
+                    <h1>
+                        <field name="name" string="Parque" placeholder="Parque..."  required ="1"/>
+                    </h1>
+                    <h2>
+                        <field name="tipo_parque_id"  placeholder="Tipo de Parque..."/>
+                    </h2>
+                    </div>
+                    
+                    
+                <notebook colspan="4">
+                    <page string="Direccion del Parque o Monumento ">
+                        <group col="4" colspan="4">
+                        <field name="ciudad" select="0"/>
+                        <field name="redi_id" select="0"/>
+                        <field name="estado_id" select="0" domain="[('redi_id','=',[redi_id])]"/>
+                        <field name="municipio_id" select="0" domain="[('estado_id','=',[estado_id])]"/>
+                        <field name="parroquia_id" select="0" domain="[('municipio_id','=',[municipio_id])]" />
+                        <field name="sector" select="0"/>
+<!--
+                        <field name="calle_avenida" select="0"/>
+-->
+                        <field name="referencia" select="0"/>
+                        </group>
+                    </page>
+                    <page string="Estructura del Parque o Monumento ">
+                        <group>
+                            <separator string="Estructura" colspan="4"/>
+                            <field name="reg_amb_dpto_ids" colspan="4" nolabel="1" select="0"/>
+                        </group>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Partner Kanban View -->
+        <record model="ir.ui.view" id="res_registro_parque_kanban_view">
+            <field name="name">registro_parque.kanban</field>
+            <field name="model">registro_parque</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="display_name"/>
+                    <field name="title"/>
+                    <field name="rif"/>
+                    <field name="tipo_parque_id"/>
+                    <field name="email"/>
+                    <field name="parent_id"/>
+                    <field name="is_company"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="mobile"/>
+                    <field name="state_id"/>
+                    <field name="category_id"/>
+                    <field name="has_image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open">
+                                                    <t t-if="record.has_image.raw_value === true">
+                                                        <img t-att-src="kanban_image('registro_parque', 'image1', record.id.value, {'preview_image': 'image_small'})" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                    </t>
+                                                    <t t-if="record.image1 and record.image1.raw_value !== false">
+                                                        <img t-att-src="'data:image1/png;base64,'+record.image1.raw_value" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                    </t>
+                                                    <t t-if="record.has_image.raw_value === false and (!record.image1 or record.image1.raw_value === false)">
+                                                        <t t-if="record.is_company.raw_value === true">
+                                                            <img t-att-src='_s + "/ingresos_propios/static/img/inparques.jpg"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                        <t t-if="record.is_company.raw_value === false">
+                                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                    </t>
+                                                </a>
+<!--
+                                <a type="open">
+                                    <t t-if="record.has_image.raw_value === true">
+                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)" class="oe_kanban_image"/>
+                                    </t>
+                                    <t t-if="record.has_image.raw_value === false">
+                                        <t t-if="record.is_company.raw_value === true">
+                                            <img t-att-src='_s + "/base/static/src/img/barcos2.jpg"' class="oe_kanban_image"/>
+                                        </t>
+                                        <t t-if="record.is_company.raw_value === false">
+                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image"/>
+                                        </t>
+                                    </t>
+                                </a>
+-->
+                                <div class="oe_kanban_details">
+                                    <h4 class="oe_partner_heading"><a type="open"><field name="display_name"/></a></h4>
+                                    <div class="oe_kanban_partner_categories"/>
+                                    <div class="oe_kanban_partner_links"/>
+                                    <ul>
+                                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>
+                                        <li t-if="!record.parent_id.raw_value and record.function.raw_value"><field name="function"/></li>
+                                        <li t-if="record.parent_id.raw_value and record.function.raw_value"><field name="function"/> at <field name="parent_id"/></li>
+                                        <li t-if="record.city.raw_value and !record.country_id.raw_value"><field name="city"/></li>
+                                        <li t-if="!record.city.raw_value and record.country_id.raw_value"><field name="country_id"/></li>
+                                        <li t-if="record.city.raw_value and record.country_id.raw_value"><field name="city"/>, <field name="country_id"/></li>
+                                        <li t-if="record.email.raw_value"><a t-attf-href="mailto:#{record.email.raw_value}"><field name="email"/></a></li>
+                                        <li t-if="record.tipo_parque_id.raw_value"><field name="tipo_parque_id"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+    
+    
+    
+    
+    <record model="ir.ui.view" id="view_registro_parque_tree">
+        <field name="name">registro_parque.tree</field>
+        <field name="model">registro_parque</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="registro_parque">
+                <field name="name"/>
+                <field name="tipo_parque_id"/>
+                <field name="estado_id"/>
+                <field name="ciudad"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_registro_parque">
+        <field name="name">Registro Parque</field>
+        <field name="res_model">registro_parque</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_id" ref="res_registro_parque_kanban_view"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Datos de los PARQUES o MONUMENTOS
+            </p>
+        </field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_regiones_form">
+        <field name="name">regiones.form</field>
+        <field name="model">regiones</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="regiones">
+                <group col="4" colspan="4">
+                <field name="nombre" select="1"/>
+                <br></br>
+                <br></br>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_regiones_tree">
+        <field name="name">regiones.tree</field>
+        <field name="model">regiones</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="regiones">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_regiones">
+        <field name="name">Regiones</field>
+        <field name="res_model">regiones</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_regiones_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran las Regiones
+            </p>
+        </field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_ambitos_form">
+        <field name="name">ambitos.form</field>
+        <field name="model">ambitos</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="ambitos">
+                <group col="4" colspan="4">
+                <field name="nombre" select="1"/>
+                <br></br>
+                <br></br>
+                <field name="region_id" select="2"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_ambitos_tree">
+        <field name="name">ambitos.tree</field>
+        <field name="model">ambitos</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="ambitos">
+                <field name="nombre"/>
+                <field name="region_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_ambitos">
+        <field name="name">Ambitos</field>
+        <field name="res_model">ambitos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_ambitos_tree"/>
+         <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Ambitos
+            </p>
+        </field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_departamentos_form">
+        <field name="name">departamentos.form</field>
+        <field name="model">departamentos</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="departamentos">
+                <group col="4" colspan="4">
+                <field name="nombre" select="1"/>
+                <br></br>
+                <br></br>
+                <field name="ambito_id" select="2"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_departamentos_tree">
+        <field name="name">departamentos.tree</field>
+        <field name="model">departamentos</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="departamentos">
+                <field name="nombre"/>
+                <field name="ambito_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_departamentos">
+        <field name="name">Departamentos</field>
+        <field name="res_model">departamentos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_departamentos_tree"/>
+         <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Departamentos
+            </p>
+        </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_tipo_parque_form">
+        <field name="name">tipo_parque.form</field>
+        <field name="model">tipo_parque</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="tipo_parque">
+                <group>
+                <field name="nombre" select="1"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tipo_parque_tree">
+        <field name="name">tipo_parque.tree</field>
+        <field name="model">tipo_parque</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="tipo_parque">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_tipo_parque">
+        <field name="name">Tipo Parque</field>
+        <field name="res_model">tipo_parque</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_parque_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Tipos PARQUES o MONUMENTOS
+            </p>
+        </field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_redi_form">
+        <field name="name">redi.form</field>
+        <field name="model">redi</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="redi">
+                <group>
+                <field name="nombre" select="1"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_redi_tree">
+        <field name="name">redi.tree</field>
+        <field name="model">redi</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="redi">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_redi">
+        <field name="name">REDI</field>
+        <field name="res_model">redi</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_estados_form">
+        <field name="name">estados.form</field>
+        <field name="model">estados</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="estados">
+                <group>
+                <field name="estado" select="1"/>
+                <field name="redi_id" select="2"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_estados_tree">
+        <field name="name">estados.tree</field>
+        <field name="model">estados</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="estados">
+                <field name="estado"/>
+                <field name="redi_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_estados">
+        <field name="name">Estados</field>
+        <field name="res_model">estados</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_municipios_form">
+        <field name="name">municipios.form</field>
+        <field name="model">municipios</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="municipios">
+                <group col="4" colspan="4">
+                <field name="municipio" select="1"/>
+                <br></br>
+                <br></br>
+                <field name="estado_id" select="2"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_municipios_tree">
+        <field name="name">municipios.tree</field>
+        <field name="model">municipios</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="municipios">
+                <field name="municipio"/>
+                <field name="estado_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_municipios">
+        <field name="name">Municipios</field>
+        <field name="res_model">municipios</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_parroquias_form">
+        <field name="name">parroquias.form</field>
+        <field name="model">parroquias</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="parroquias">
+                <group col="4" colspan="4">
+                <field name="parroquia" select="1"/>
+                <br></br>
+                <br></br>
+                <field name="municipio_id" select="2"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_parroquias_tree">
+        <field name="name">parroquias.tree</field>
+        <field name="model">parroquias</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="parroquias">
+                <field name="parroquia"/>
+                <field name="municipio_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_parroquias">
+        <field name="name">Parroquias</field>
+        <field name="res_model">parroquias</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_genero_form">
+        <field name="name">genero.form</field>
+        <field name="model">genero</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="genero">
+                <group>
+                <field name="nombre" select="1"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_genero_tree">
+        <field name="name">genero.tree</field>
+        <field name="model">genero</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="genero">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_genero">
+        <field name="name">Genero</field>
+        <field name="res_model">genero</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_estado_civil_form">
+        <field name="name">estado_civil.form</field>
+        <field name="model">estado_civil</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="estado_civil">
+                <group>
+                <field name="nombre" select="1"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_estado_civil_tree">
+        <field name="name">estado_civil.tree</field>
+        <field name="model">estado_civil</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="estado_civil">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_estado_civil">
+        <field name="name">Estado Civil</field>
+        <field name="res_model">estado_civil</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_persona_form">
+        <field name="name">persona.form</field>
+        <field name="model">persona</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="persona">
+                <group col="4" colspan="4">
+                <field name="nombre" select="1"/>
+                <field name="apellido" select="2"/>
+                <field name="cedula" select="0"/>
+                <field name="fecha_nac" select="0"/>
+                <field name="genero_id" select="0"/>
+                <field name="estado_civil_id" select="0"/>
+                <field name="correo" select="0"/>
+                <field name="ciudad" select="0"/>
+                <field name="redi_id" select="0"/>
+                <field name="estado_id" select="0"/>
+                <field name="municipio_id" select="0"/>
+                <field name="parroquia_id" select="0"/>
+                <field name="sector" select="0"/>
+                <field name="calle_avenida" select="0"/>
+                <field name="referencia" select="0"/>
+                <field name="casa_apto" select="0"/>
+                <field name="numero" select="0"/>
+                <separator string=" 'Telefono'" colspan="4"/>
+                <field name="telefono_ids" colspan="4" nolabel="1" select="0"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_persona_tree">
+        <field name="name">persona.tree</field>
+        <field name="model">persona</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="persona">
+                <field name="nombre"/>
+                <field name="apellido"/>
+                <field name="cedula"/>
+                <field name="estado_id"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_persona">
+        <field name="name">Persona</field>
+        <field name="res_model">persona</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        
+    <record model="ir.ui.view" id="view_reg_amb_dpto_form">
+        <field name="name">reg_amb_dpto.form</field>
+        <field name="model">reg_amb_dpto</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="reg_amb_dpto">
+                <group>
+                <field name="region_id" select="1"/>
+                <field name="ambito_id" select="2" domain="[('region_id','=',[region_id])]" context="{'default_region_id' : region_id}"/>
+                <field name="dptos_id" select="0" domain="[('ambito_id','=',[ambito_id])]" context="{'default_ambito_id' : ambito_id}"/>
+                <!--<field name="registro_parque_id" select="0"/>-->
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_reg_amb_dpto_tree">
+        <field name="name">reg_amb_dpto.tree</field>
+        <field name="model">reg_amb_dpto</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="reg_amb_dpto">
+                <field name="region_id"/>
+                <field name="ambito_id"/>
+                <field name="dptos_id"/>
+                <field name="registro_parque_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_reg_amb_dpto">
+        <field name="name">Region Ambito Dptos</field>
+        <field name="res_model">reg_amb_dpto</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+    
+
+        
+    <record model="ir.ui.view" id="view_telefono_persona_form">
+        <field name="name">telefono_persona.form</field>
+        <field name="model">telefono_persona</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="telefono_persona">
+                <group>
+                <!--<field name="persona_id" select="1"/>-->
+                <field name="tlf_id" select="2"/>
+                <field name="numero" select="0"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_telefono_persona_tree">
+        <field name="name">telefono_persona.tree</field>
+        <field name="model">telefono_persona</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="telefono_persona">
+                <field name="persona_id"/>
+                <field name="tlf_id"/>
+                <field name="numero"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_telefono_persona">
+        <field name="name">Telefono Persona</field>
+        <field name="res_model">telefono_persona</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+
+        
+    <record model="ir.ui.view" id="view_tipo_telefono_form">
+        <field name="name">tipo_telefono.form</field>
+        <field name="model">tipo_telefono</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="tipo_telefono">
+                <group col="4" colspan="4">
+                <field name="nombre" select="1"/>
+                <br></br>
+                <br></br>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tipo_telefono_tree">
+        <field name="name">tipo_telefono.tree</field>
+        <field name="model">tipo_telefono</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="tipo_telefono">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_tipo_telefono">
+        <field name="name">Tipo de Telefono</field>
+        <field name="res_model">tipo_telefono</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_telefono_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Tipos de Telefonos 
+            </p>
+        </field>
+    </record>
+    
+    <record id="view_juridico_natural_form" model="ir.ui.view">
+            <field name="name">juridico_natural</field>
+            <field name="model">juridico_natural</field>
+<!--
+            <field name="priority" eval="50"/>
+            <field name="type">form</field>
+-->
+            <field name="arch" type="xml">
+                <form string="juridico_natural">
+                    <field name="partner_id" invisible="1" required ="0"/>
+                      <field name="image" 
+                            widget='image' 
+                            class="oe_left oe_avatar" 
+                            options='{"preview_image": "image_medium", "size": [90, 90]}'
+                            help="Este campo contiene la imagen utilizada como avatar para este contacto, limitada a 1024x1024 px "
+                            />
+                    <div class="oe_title oe_left">
+                        <div class="oe_edit_only">
+                            <label for="name" string="Nombre"/> (
+                            <field  name="is_company" 
+                                    on_change="onchange_type(is_company)" 
+                                    class="oe_inline"
+                                    help="Marque esta casilla si el contacto es una compañia. En caso contrario, será una persona"
+                                    /> 
+                                <label for="is_company" 
+                                string="¿Es una Compañia?"
+                                />)
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Nombre" required ="1"/>
+                        </h1>
+                        <field name="rif" placeholder="Cedula, R.I.F."/>
+                        <field name="parent_id"
+                            placeholder="Compañia"
+                            domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}"
+                            attrs="{'invisible': [('is_company','=', True),('parent_id', '=', False)]}"
+                            on_change="onchange_address(use_parent_address, parent_id)"
+                            />
+                        <field name="category_id" widget="many2many_tags" placeholder="Etiquetas..."/>
+                    </div>
+                    <div class="oe_right oe_button_box" name="buttons"> </div>
+
+                    <group invisible="1">
+                        <group>
+                            <label for="type" attrs="{'invisible': [('parent_id','=', False)]}"/>
+                            <div attrs="{'invisible': [('parent_id','=', False)]}" name="div_type">
+                                <field class="oe_inline"
+                                    name="type"/>
+                            </div>
+
+                            <label for="street" string="Address"/>
+                            <div>
+                                <div class="oe_edit_only">
+                                    <field name="use_parent_address" class="oe_inline"
+                                           on_change="onchange_address(use_parent_address, parent_id)"
+                                           attrs="{'invisible': ['|', ('is_company', '=', True),('parent_id', '=', False)]}"/>
+                                    <label for="use_parent_address" attrs="{'invisible': ['|', ('is_company', '=', True), ('parent_id', '=', False)]}"/>
+                                </div>
+                                <button name="open_parent" type="object" string="(edit company address)" class="oe_link oe_edit_only"
+                                        attrs="{'invisible': ['|',('parent_id','=', False),('use_parent_address','=',False)]}"/>
+                                <field name="street" placeholder="Street..."  attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                                <field name="street2"  attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                                <div class="address_format">
+                                    <field name="city" placeholder="City" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                                    <field name="zip" placeholder="ZIP" style="width: 20%%" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                                </div>
+                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}' attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                            </div>
+                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                        </group>
+                        <group>
+                            <field name="function" placeholder="e.g. Sales Director"
+                                attrs="{'invisible': [('is_company','=', True)]}"/>
+                            <field name="phone" placeholder="e.g. +32.81.81.37.00"/>
+                            <field name="mobile"/>
+                            <field name="fax"/>
+                            <field name="user_ids" invisible="1"/>
+                            <field name="email" widget="email" attrs="{'required': [('user_ids','!=', [])]}"/>
+                            <field name="title" options='{"no_open": True}'/>
+                        </group>
+                    </group>
+
+                    <notebook colspan="4">
+                        <page string="Contactos" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])]}" autofocus="autofocus">
+                            <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_use_parent_address': True}">
+                                <kanban>
+                                    <field name="color"/>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="email"/>
+                                    <field name="parent_id"/>
+                                    <field name="is_company"/>
+                                    <field name="function"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city"/>
+                                    <field name="country_id"/>
+                                    <field name="mobile"/>
+                                    <field name="fax"/>
+                                    <field name="state_id"/>
+                                    <field name="has_image"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                            <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '')" style="position: relative">
+                                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                                <div class="oe_module_vignette">
+                                                <a type="open">
+                                                    <t t-if="record.has_image.raw_value === true">
+                                                        <img t-att-src="kanban_image('res.partner', 'image', record.id.value, {'preview_image': 'image_small'})" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                    </t>
+                                                    <t t-if="record.image and record.image.raw_value !== false">
+                                                        <img t-att-src="'data:image/png;base64,'+record.image.raw_value" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                    </t>
+                                                    <t t-if="record.has_image.raw_value === false and (!record.image or record.image.raw_value === false)">
+                                                        <t t-if="record.is_company.raw_value === true">
+                                                            <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                        <t t-if="record.is_company.raw_value === false">
+                                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                    </t>
+                                                </a>
+                                                    <div class="oe_module_desc">
+                                                        <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
+                                                            <table class="oe_kanban_table">
+                                                                <tr>
+                                                                    <td class="oe_kanban_title1" align="left" valign="middle">
+                                                                        <h4><a type="open"><field name="name"/></a></h4>
+                                                                        <i><div t-if="record.function.raw_value">
+                                                                            <field name="function"/></div></i>
+                                                                        <div><a t-if="record.email.raw_value" title="Mail" t-att-href="'mailto:'+record.email.value">
+                                                                            <field name="email"/>
+                                                                        </a></div>
+                                                                        <div t-if="record.phone.raw_value">Phone: <field name="phone"/></div>
+                                                                        <div t-if="record.mobile.raw_value">Mobile: <field name="mobile"/></div>
+                                                                        <div t-if="record.fax.raw_value">Fax: <field name="fax"/></div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                <form string="Contactos">
+                                    <sheet>
+                                        <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                                        <div class="oe_title">
+                                            <label for="name" class="oe_edit_only"/>
+                                            <h1><field name="name" style="width: 70%%"/></h1>
+                                            <field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%%"/>
+                                        </div>
+                                        <group>
+                                            <field name="function" placeholder="e.g. Sales Director"/>
+                                            <field name="email"/>
+                                            <field name="phone"/>
+                                            <field name="mobile"/>
+                                        </group>
+                                        <div>
+                                            <field name="use_parent_address"/><label for="use_parent_address"/>
+                                        </div>
+                                        <group>
+                                            <label for="type"/>
+                                            <div name="div_type">
+                                                <field class="oe_inline" name="type"/>
+                                            </div>
+                                            <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}"/>
+                                            <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
+                                                <field name="street" placeholder="Street..."/>
+                                                <field name="street2"/>
+                                                <div class="address_format">
+                                                    <field name="city" placeholder="City" style="width: 40%%"/>
+                                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
+                                                    <field name="zip" placeholder="ZIP" style="width: 20%%"/>
+                                                </div>
+                                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
+                                            </div>
+                                        </group>
+                                        <field name="supplier" invisible="True"/>
+                                        <field name="customer" invisible="True"/>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+<!--
+                        <page name='internal_notes' string="Internal Notes">
+                            <field name="comment" placeholder="Put an internal note..."/>
+                        </page>
+-->
+                        <page string="Direccion de Registro">
+                        <group col="4" colspan="4">
+                            <field name="redi_id" select="0"/>
+                            <field name="estado_id" select="0"/>
+                            <field name="municipio_id" select="0"/>
+                            <field name="parroquia_id" select="0"/>
+                            <field name="sector" select="0"/>
+                            <field name="referencia" select="0"/>
+                        </group>
+                    </page>
+                    <page string="Telefonos a Registrar">
+                        <group col="4" colspan="4">
+                            <separator string="Telefonos" colspan="4"/>
+                            <field name="telefonos_ids" colspan="4" nolabel="1" select="0"/>
+                        </group>
+                    </page>
+                    <page string="Documentos a Registrar">
+                        <group col="2" colspan="2">
+                            <separator string="Documentos" colspan="2"/>
+                            <field name="documentos_ids" colspan="4" nolabel="1" select="0"/>
+                            
+                        </group>
+                    </page>
+                        <page name='sales_purchases' string="Ventas y Compras">
+                            <group>
+                                <group>
+                                    <field name="correo" widget="email"/>
+                                    <field name="ref" string="Referencia del Contacto"/>
+                                    <field name="date" string="Fecha"/>
+<!--
+                                    <field name="user_id" 
+                                        context="{'default_groups_ref': ['base.group_partner_manager']}"/>
+-->
+                                    <field name="company_id" string="Compañia" groups="base.group_multi_company" widget="selection"/>
+                                </group>
+                                <group>
+                                    <field name="customer" string="Cliente"/>
+                                    <field name="supplier" string="Proveedor"/>
+                                    <field name="active"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                    </notebook>
+                <group col="4" colspan="4">
+                    <field name="objeto"/>
+                </group>
+            </form>
+            </field>
+         </record>
+    <record model="ir.ui.view" id="view_juridico_natural_tree">
+        <field name="name">juridico_natural.tree</field>
+        <field name="model">juridico_natural</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="juridico_natural">
+                <field name="name" string="Nombre"/>
+                <field name="rif"/>
+                <field name="correo"/>
+<!--
+                <field name="objeto"/>
+                <field name="redi_id"/>
+                <field name="estado_id"/>
+                <field name="municipio_id"/>
+                <field name="parroquia_id"/>
+                <field name="sector"/>
+                <field name="referencia"/>
+-->
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_juridico_natural">
+        <field name="name">Juridico Natural</field>
+        <field name="res_model">juridico_natural</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_juridico_natural_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Datos de las Personas Naturales o Juridicas 
+            </p>
+        </field>
+    </record>
+    
+
+        
+    <record model="ir.ui.view" id="view_telefono_jur_nat_form">
+        <field name="name">telefono_jur_nat.form</field>
+        <field name="model">telefono_jur_nat</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="telefono_jur_nat">
+                <group>
+                <!--<field name="juridico_natural_id" select="1"/>-->
+                <field name="tlf_id" select="2"/>
+                <field name="numero" select="0"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_telefono_jur_nat_tree">
+        <field name="name">telefono_jur_nat.tree</field>
+        <field name="model">telefono_jur_nat</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="telefono_jur_nat">
+                <field name="juridico_natural_id"/>
+                <field name="numero"/>
+                <field name="tlf_id"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_telefono_jur_nat">
+        <field name="name">Telefono Jurico natural</field>
+        <field name="res_model">telefono_jur_nat</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+    
+
+        
+    <record model="ir.ui.view" id="view_documentos_form">
+        <field name="name">documentos.form</field>
+        <field name="model">documentos</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="documentos">
+                <group>
+                <!--<field name="juridico_natural_id" select="1"/>-->
+                <field name="nombre" select="2"/>
+                <field name="descripcion" select="0"/>
+                <field name="fecha_exp" select="0"/>
+                <field name="fecha_venc" select="0"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_documentos_tree">
+        <field name="name">documentos.tree</field>
+        <field name="model">documentos</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="documentos">
+                <field name="juridico_natural_id"/>
+                <field name="nombre"/>
+                <field name="descripcion"/>
+                <field name="fecha_exp"/>
+                <field name="fecha_venc"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_documentos">
+        <field name="name">Documentos</field>
+        <field name="res_model">documentos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree</field>
+    </record>
+    
+<!--
+    <record id="seq_concesion_type" model="ir.sequence.type">
+            <field name="name">Secuencia concesion</field>
+            <field name="name">seq.concesion</field>
+        </record>
+        <record id="seq_concesion" model="ir.sequence">
+            <field name="name">Secuencia concesion</field>
+            <field name="name">seq.concesion</field>
+            <field name="padding" eval="4"/>
+            <field name="prefix">CONCESION%(year)s%(month)s/</field>
+        </record>
+-->
+        
+    <record model="ir.ui.view" id="view_concesiones_form">
+        <field name="name">concesiones.form</field>
+        <field name="model">concesiones</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="concesiones">
+                <header>
+                <button name="create_fact_conc" string="Generar" type="object" class="oe_highlight"/>
+                <button name="calcular_mora" string="Mora" type="object" class="oe_highlight"/>
+                <button name="boton_cancelar" string="Cancelar" type="object" class="oe_highlight"/>
+                <field name="state" widget="statusbar" statusbar_visible="en_proceso,en_deuda,procesada,cancel" statusbar_colors='{"invoice_except":"red","waiting_date":"blue"}'/>
+                </header>
+                <sheet>
+                    <div class="oe_right oe_button_box">
+                    <button name="action_get_attachment_tree_view" 
+                        class="oe_stat_button"
+                        icon="fa-book"
+                        type="object">
+                        <field name="attachment_number" widget="statinfo" string="Documentos"/>
+                    </button>
+                    </div>
+                    <h1>
+                    <field name="name" string="Correlativo" required="False" readonly="1" style="widht:30%%"/>
+                    </h1>
+                    
+                    
+                    
+<!--
+                    <button name="funcionModificadora" 
+                            type="object" 
+                            class="oe_right oe_stat_button" 
+                            icon="fa-strikethrough" 
+                            string="Cancelar">
+                    </button>
+                    <button name="funcionModificadora" 
+                            type="object" 
+                            class="oe_right oe_stat_button" 
+                            icon="fa-strikethrough" 
+                            string="Generar">
+                    </button>
+                    attrs="{'domain': ['|',('embarcacion','=',True),('marina','=',True),'|',('parque','=',True)]}"
+-->
+                <group col="4" colspan="4">
+                    <field name="tipo_contrato" widget="radio" style="widht:30%%" required="1"/>
+                    <br></br>
+                    <br></br>
+                    <field  name="partner_id" 
+                            required ="1"
+                            domain="[('parque','=',False), ('embarcacion','=',False)]"
+                            />
+                    
+                    <field name="registro_parque_id" select="0"/>
+                    
+<!--
+                    <field name="ut_id" select="0" widget="selection" required ="0" />
+-->
+                    <field name="unidad_tributaria" string="Unidad Tributaria"/>
+                    <field name="pago_mensual" required ="0" />
+                    <field name="monto_letra2" string="Monto letra U.T mensual" invisible="1"/>
+                    <field name="pago_mens" string="Total a Cancelar Mensual en BsF."/>
+                    <field name="monto_letra" string="Monto en Letra"  invisible="1"/>
+                    <field name="tipo_actividad_id" select="1"/>
+                    <field name="espacio" select="0"/>
+                </group>
+                <notebook colspan="4">
+                    <page  string="Fechas de la Concesión">
+                            <separator string="Fechas" invisible="1" colspan="4"/>
+                            <group>
+                            <field name="fecha_inicio" select="2" attrs="{'readonly': [('fecha_fin','=',True)]}"/>
+                            <field name="fecha_fin" select="0" on_change="facturas_por_realizar(fecha_inicio,fecha_fin,unidad_tributaria,pago_mensual)"/> 
+                            <field name="fecha_aviso" select="0"/>
+                            </group>
+                        </page>
+                        <page  string="Observaciones">
+                            <separator  colspan="4"/>
+                            <field name="datos_contrato" colspan="4" nolabel="1" select="0"/>
+                        </page>
+                        <page  string="Facturas por Realizar" invisible="0">
+                            <separator  colspan="4"/>
+                            <field name="factura_por_generar_ids" colspan="4" nolabel="1" select="0"/>
+<!--
+                            Relaizar un boton el cual me permita limpiar la informacion si el usuario se equivoco
+-->
+                        </page>
+                </notebook>
+                </sheet>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </xpath>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_concesiones_tree">
+        <field name="name">concesiones.tree</field>
+        <field name="model">concesiones</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="concesiones" colors="green:state in ('en_proceso');blue:state in ('procesada');red:state in ('cancel')">
+                <field name="name"/>
+                <field name="tipo_contrato" />
+                <field name="registro_parque_id"/>
+                <field name="partner_id"/>
+                <field name="tipo_actividad_id"/>
+                <field name="fecha_inicio"/>
+                <field name="fecha_fin"/>
+                <field name="state"/>
+                
+                
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_concesiones">
+        <field name="name">Contrato</field>
+        <field name="res_model">concesiones</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_concesiones_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Datos de los Contratos 
+            </p>
+        </field>
+    </record>
+    
+
+        
+    <record model="ir.ui.view" id="view_tipo_actividad_form">
+        <field name="name">tipo_actividad.form</field>
+        <field name="model">tipo_actividad</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="tipo_actividad">
+                <group>
+                <field name="nombre" select="1"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tipo_actividad_tree">
+        <field name="name">tipo_actividad.tree</field>
+        <field name="model">tipo_actividad</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="tipo_actividad">
+                <field name="nombre"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_tipo_actividad">
+        <field name="name">Tipo de Actividad</field>
+        <field name="res_model">tipo_actividad</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_actividad_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Tipos de Actividades 
+            </p>
+        </field>
+    </record>
+    <menuitem name="Ingresos Propios" id="menu_general_ingresos_propios"/>
+    
+    <menuitem name="Registro de Parques" id="menu_ingresos_propios" parent="menu_general_ingresos_propios" sequence="0"/>
+    
+        <menuitem name="Parques/Monumentos" id="menu_paruqe_mon" parent="menu_ingresos_propios" sequence="50"/>
+			<menuitem name="Registro de Parques" id="menu_registro_parque" action="action_registro_parque" parent="menu_paruqe_mon" sequence="3"/>
+    
+		<menuitem name="Estructura" id="menu_estructura" parent="menu_ingresos_propios" sequence="0"/>
+			<menuitem name="Regiones" id="menu_regiones" action="action_regiones" parent="menu_estructura" sequence="0"/>
+			<menuitem name="Ambitos" id="menu_ambitos" action="action_ambitos" parent="menu_estructura" sequence="10"/>
+			<menuitem name="Departamentos" id="menu_departamentos" action="action_departamentos" parent="menu_estructura" sequence="20"/>
+			<menuitem name="Relacion de Parques con Estructura" id="menu_reg_amb_dpto" action="action_reg_amb_dpto" parent="menu_estructura" sequence="40"/>
+		
+<!--
+        menues deshabilitados debido a que se utilizara la herencia de res.user "Eliminar menuitem, form, tree, action clase y security"
+		<menuitem name="Persona" id="menu_registro_persona" parent="menu_ingresos_propios" sequence="1"/>
+			<menuitem name="Persona" id="menu_persona" action="action_persona" parent="menu_registro_persona" sequence="0"/>
+			<menuitem name="Genero" id="menu_genero" action="action_genero" parent="menu_registro_persona" sequence="1"/>
+			<menuitem name="Estado Civil" id="menu_estado_civil" action="action_estado_civil" parent="menu_registro_persona" sequence="2"/>
+			<menuitem name="Telefono Persona" id="menu_telefono_persona" action="action_telefono_persona" parent="menu_registro_persona" sequence="3"/>
+-->
+		
+		<menuitem name="Caracteristicas" id="menu_caracteristicas" parent="menu_ingresos_propios" sequence="2"/>
+			<menuitem name="Tipo Parque" id="menu_tipo_parque" action="action_tipo_parque" parent="menu_caracteristicas" sequence="0"/>
+		
+		<menuitem name="Configuracion" id="menu_configuracion" parent="menu_ingresos_propios" sequence="3"/>
+			<menuitem name="REDI" id="menu_redi" action="action_redi" parent="menu_configuracion" sequence="0"/>
+			<menuitem name="Estados" id="menu_estados" action="action_estados" parent="menu_configuracion" sequence="1"/>
+			<menuitem name="Municipios" id="menu_municipios" action="action_municipios" parent="menu_configuracion" sequence="2"/>
+			<menuitem name="Parroquias" id="menu_parroquias" action="action_parroquias" parent="menu_configuracion" sequence="3"/>
+			
+<!--
+    <menuitem name="Registro de Empresa o Persona" id="menu_reg_emp_per"/>
+    
+        <menuitem name="Empresa o Persona" id="menu_emp_persona" parent="menu_reg_emp_per" sequence="0"/>
+			<menuitem name="Registro Juridico/Natural" id="menu_juridico_natural" action="action_juridico_natural" parent="menu_emp_persona" sequence="10"/>
+			<menuitem name="Telefonos Juridico/Natural" id="menu_telefono_jur_nat" action="action_telefono_jur_nat" parent="menu_emp_persona" sequence="30"/>
+            <menuitem name="Documentos Juridico/Natural" id="menu_documentos" action="action_documentos" parent="menu_emp_persona" sequence="20"/>
+-->
+<!--
+		<menuitem name="Empresa" id="menu_emp" parent="menu_reg_emp_per" sequence="1"/>
+			<menuitem name="Empresa" id="menu_juridico_natural2" action="action_juridico_natural" parent="menu_emp" sequence="0"/>
+		
+-->
+<!--
+        <menuitem name="Configuracion" id="menu_conf" parent="menu_reg_emp_per" sequence="1"/>
+			<menuitem name="Tipo de Telefono" id="menu_tipo_telefono" action="action_tipo_telefono" parent="menu_conf" sequence="0"/>
+-->
+			
+	
+	<menuitem name="Contrato" id="menu_conces" parent="menu_general_ingresos_propios" sequence="10"/>
+		<menuitem name="Registro de Contrato" id="menu_reg_conc" parent="menu_conces" sequence="0"/>
+			<menuitem name="Contrato" id="menu_concesiones" action="action_concesiones" parent="menu_reg_conc" sequence="0"/>
+			<menuitem name="Tipo de Actividad" id="menu_tipo_actividad" action="action_tipo_actividad" parent="menu_reg_conc" sequence="1"/>
+			
+			
+			
+			
+			
+        
+</data>
+</openerp>

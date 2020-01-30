@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="registro_parque_inherit2" model="ir.ui.view">
+            <field name="name">registro_parque_inherit</field>
+            <field name="model">registro_parque</field>
+            <field name="inherit_id" ref="ingresos_propios.view_registro_parque_form" />
+            <field name="arch" type="xml">
+                <notebook colspan="4" position='inside'>
+                    <page string="Puesto de Control">
+                        <group>
+                            <field name="puesto_vig_ids" colspan="4" />
+                        </group>
+                    </page>
+                    </notebook>
+            </field>
+        </record>
+        
+        
+        
+                            <!--Puesto de Vigilancia-->
+                            
+        <record model="ir.ui.view" id="view_puesto_vigilancia_form">
+            <field name="name">puesto_vigilancia.form</field>
+            <field name="model">puesto_vigilancia</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Puesto de Control">
+                    <group col="4" colums="4">
+                        <field name="nombre"/>
+                        <field name="puesto_ids1" string="Tipo de Puesto"/>
+                        <field name="latitud"/>
+                        <field name="longitud"/>
+                        <field name="registro_parque_id" invisible ='1'/>
+                    </group>
+                        <notebook colspan="4">
+                            <page string="Horario de Trabajo">
+                                <separator string="" colspan="4"/>
+                                <field name="resource_ids" colspan="4" nolabel="1" select="0"/>
+                            </page> 
+                        </notebook>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="view_puesto_vigilancia_tree">
+            <field name="name">puesto_vigilancia.tree</field>
+            <field name="model">puesto_vigilancia</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Puesto de Control">
+                        <field name="nombre" />
+                        <field name="puesto_ids1" string="Tipo de Puesto"/>
+                        <field name="latitud"/>
+                        <field name="longitud"/>
+                        <field name="resource_ids"/>
+                        <field name="registro_parque_id" invisible ='1'/>
+                </tree>
+            </field>
+        </record>
+        
+        
+        
+                                    <!--Jornada Laboral-->
+                                    
+          <record model="ir.ui.view" id="view_jornada_laboral_tree">
+            <field name="name">jornada.laboral.tree</field>
+            <field name="model">jornada_laboral</field>
+            <field name="arch" type="xml">
+                <tree string="Working Time" editable="top">
+                             <field name="name" string="Nombre"/>
+                             <field name="dayofweek" string="Día de la semana"/>
+                             <field name="hour_from" string="Trabaja Desde" widget="float_time"/>
+                             <field name="hour_to" string="Trabaja Hasta" widget="float_time"/>
+                </tree>
+            </field>
+          </record>
+        
+        <record id="view_jornada_laboral_form" model="ir.ui.view">
+            <field name="name">jornada.laboral.form</field>
+            <field name="model">jornada_laboral</field>
+            <field name="arch" type="xml">
+                <form string="Working Time">
+                    <sheet>
+                        <group col="4" colums="4">
+                            <field name="name"/>
+                            <label for="hour_from" string="Hours"/>
+                            <div>
+                                <field name="hour_from" widget="float_time" class="oe_inline"/> - 
+                                <field name="hour_to" widget="float_time" class="oe_inline"/>
+                            </div>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        
+        
+        <record model="ir.actions.act_window" id="action_puesto_vigilancia">
+            <field name="name">Puesto de Vigilancia</field>
+            <field name="res_model">puesto_vigilancia</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+    </data>
+</openerp>

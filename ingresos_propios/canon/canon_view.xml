@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <openerp>
+        <data>
+            
+<!--
+            vista formulario de cano concesiones
+-->
+            
+            <record id="ip_canon_concesiones_form" model="ir.ui.view">
+                <field name="name">ip.canon.concesiones</field>
+                <field name="model">ip.canon.concesiones</field>
+                <field name="type">form</field>
+                <field name="mode">primary</field>
+                <field name="arch" type="xml">
+                    <form name="canon" string="Canon concesiones">
+                        <header>
+                            <button name="confirmed_rendicion" string="Confirmar" type="object" states="draft,cancel"  class="oe_highlight"/>
+                            <button name="cancel_rendicion" string="Cancelar" type="object" states="draft,confirm"  class="oe_highlight"/>
+                            <button name="generar_punto_cuenta" string="Generar Punto de Cuenta" type="object" states="confirm"  class="oe_highlight"/>
+                            <button name="eliminar_canon" string="Eliminar" type="object" states="draft"  class="oe_highlight"/>
+                            <field name="state" widget="statusbar"/>
+                        </header>
+                        <sheet>
+                            <h1>
+                                <field name="name" string="Correlativo" readonly="1" required="False" class="oe_inline" style="widht:30%%"/>
+                            </h1>
+                            <group col="4" colspan="4">
+                                <field name="partner_id"  domain="[('parque','=',False),('embarcacion','=',False)]"/>
+                                <field name="parque_id"  />
+                                <field name="date_calculo"  />
+                                <field name="unidad_tributaria" string="Valor Unidad Tributaria"/>
+                            </group>
+                            <br/>
+                            <h3>Canon por ingresos brutos</h3>
+                            <br/>
+                                <group col="4" colspan="4">
+                                    <field name="ingresos_brutos_id"  on_change="mostrar_porcentaje_bruto(ingresos_brutos_id)"/>
+                                    <field name="porcentaje_bruto" string="Porcentaje"/> 
+                                    <field name="monto_ingreso_bruto" />
+                                    <label for="total_ingreso_bruto"/>
+                                        <div>
+                                            <field name="total_ingreso_bruto" readonly='True' class="oe_inline"/>
+                                            <button name="calculo_canon_total" string="⇒ Calcular" type="object" class="oe_link"/>
+                                        </div>
+                                </group>
+                            <br/>
+                            <h3>Canon por poblacion captada</h3>
+                            <br/>
+                                <notebook>
+                                    <page string="Poblacion captada">
+                                        <field name="promedio_visitantes_ids"   domain="[('parque_id','=',parque_id)]" />
+                                    </page>
+                                </notebook>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="promedio_poblacion_captada"  readonly='True'/>
+                                </group>
+                                <group col="4" colspan="4">
+                                    <field name="captacion_visitantes_id" on_change="mostrar_porcentaje_captacion(captacion_visitantes_id)" />
+                                    <field name="porcentaje_visitantes" string="Porcentaje"/>
+                                </group>
+                                <notebook>
+                                    <page string="Productos o servicios">
+                                        <field name="canon_producto_id"    >
+                                            <form string="Productos o servicios">
+                                                <group>
+                                                    <field name="nombre_id"/>
+                                                    <field name="monto_producto"/>
+                                                </group>
+                                            </form>
+                                            <tree string="Productos o servicios" editable="bottom">
+                                                <field name="nombre_id" />
+                                                <field name="monto_producto"/>
+                                            </tree>
+                                        </field>
+                                    </page>
+                                </notebook>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="promedio_productos_servicios" readonly='True'/>
+                                </group>
+                                <group col="4" colspan="4">
+                                    <label for="total_poblacion_captada"/>
+                                        <div>
+                                            <field name="total_poblacion_captada"  readonly='True' class="oe_inline"/>
+                                            <button name="calculo_canon_total" string="⇒ Calcular" type="object" class="oe_link"/>
+                                        </div>
+                                </group>
+                                <br/>
+                                <h3>Canon por metros ocupados</h3>
+                                <br/>
+                                    <group col="4" colspan="4">
+                                        <field name="cantidad_metros" />
+                                        <label for="total_metros_ocupados"/>
+                                            <div>
+                                                <field name="total_metros_ocupados"  readonly='True' class="oe_inline" />
+                                                <button name="calculo_canon_total" string="⇒ Calcular" type="object" class="oe_link"/>
+                                            </div>
+                                    </group>
+                                <br/>
+                                <h3>Canon por concesión</h3>
+                                <br/>
+                                    <group>
+                                        <field name="total_canon_concesiones" readonly='True'/> 
+                                    </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+            
+<!--
+            vista arbol de canon concesiones
+-->
+            
+            <record model="ir.ui.view" id="ip_canon_concesiones_tree">
+                <field name="name">Canon</field>
+                <field name="model">ip.canon.concesiones</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Canon cocesiones" colors="red:state=='cancel';blue:state=='draft';green:state=='confirm';">
+                        <field name="name" />
+                        <field name="partner_id" />
+                        <field name="parque_id" />
+                        <field name="date_calculo"/>
+                        <field name="total_canon_concesiones"/>
+                        <field name="state" />
+                    </tree>
+                </field>
+            </record>
+  
+<!--
+            action de canon concesiones
+-->
+           
+            <record model="ir.actions.act_window" id="action_ip_canon_concesiones">
+                <field name="name">Canon de concesiones</field>
+                <field name="res_model">ip.canon.concesiones</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="ip_canon_concesiones_tree"/>
+                <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                De click aqui generar un canon
+                </p>
+                </field>
+            </record>
+            
+<!--
+            menu de canon conseciones
+-->
+
+            <menuitem name="Canon" id="menu_ip_canon"    parent="ingresos_propios.menu_general_ingresos_propios" sequence="40" />
+            <menuitem name="Canon" id="menu_ip_canon_concesiones" parent="menu_ip_canon"   sequence="10" />
+            <menuitem name="Canon de concesiones" id="menu_ip_canon_concesione" parent="menu_ip_canon_concesiones"  action="action_ip_canon_concesiones" sequence="10" />
+    </data>
+</openerp>

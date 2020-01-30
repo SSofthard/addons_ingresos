@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <template id="id_rendicion_general1_report_qweb">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    
+                    <h5>
+                            <span><strong><center>RENDICIONES PARQUE</center></strong></span>
+                    </h5>
+                    <div class="row col-xs-3"> 
+                
+                            <tr><td><strong>Parque:</strong></td>
+                            <p t-esc="data['form']['registro_parque_id'][1]"/>
+                            </tr>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Desde:</strong>
+                        <p t-esc="formatLang(data['form']['date_start'], date=True)"/>
+                    </div>
+                    <div class="col-xs-3">
+                        <strong>Hasta:</strong>
+                        <p t-esc="formatLang(data['form']['date_end'], date=True)"/>
+                    </div>
+                    
+                    <table class="table  table-bordered " style="border: 1px solid black">
+						<tr>
+                           
+                            <td><strong><center>Responsable</center></strong></td>
+                            <td><strong><center>Fecha</center></strong></td>
+                            <td><strong><center>Depositos/Transferencias</center></strong></td>
+                            <td><strong><center>Emp/Pers que Compro</center></strong></td>
+                            <td><strong><center>Referencias</center></strong></td>
+                            <td><strong><center>Cobros</center></strong></td>
+
+                        </tr>
+						<tr t-foreach="get_data1(data['form']['date_start'],data['form']['date_end'],data['form']['registro_parque_id'])" t-as="o">
+                                
+                                <td><center><span t-field="o.create_uid"/></center></td>
+                                <td><center><span t-field="o.date_due"/></center></td>
+                                <td><center><span t-field="o.deposito_transferencia"/></center></td>
+                                <td><center><span t-field="o.partner_id"/></center></td>
+                                <td><center><span t-field="o.reference"/></center></td>
+                                <td><center><span t-field="o.amount"/></center></td>
+                          
+						</tr>
+                         <tr>
+                               <td colspan="4"></td>
+                               <td><strong>Total</strong></td>
+                               <td class="text-right"  ><span t-esc="get_total()"/></td>
+                        </tr>
+                     </table>
+                </div>
+              </t>
+          </t>
+       </t> 
+   </template>
+</data>
+</openerp>

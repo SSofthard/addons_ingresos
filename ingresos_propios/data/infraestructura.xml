@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	<!-- Configuracion Infraestructuras de Telecomunicacion -->
+	
+	<!-- Infraestructuras para Empresas de TV y Telefonia Publica y Celular. -->
+    <record id="infra_Tor" model="infraestructura">
+		<field name="name">Torres</field>
+	</record>
+    <record id="infraestructura_Cas" model="infraestructura">
+		<field name="name">Casetas</field>
+	</record>
+	<record id="infraestructura_Ant" model="infraestructura">
+		<field name="name">Antenas</field>
+	</record>
+    </data>
+
+</openerp>

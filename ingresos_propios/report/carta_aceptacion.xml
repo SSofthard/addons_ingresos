@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<report id="report_carta_aceptacion"
+			string="Carta Aceptación"
+			model="concesiones"
+			report_type="qweb-pdf"
+			file="ingresos_propios.id_carta_aceptacion"
+            name="ingresos_propios.id_carta_aceptacion"
+            menu="True"/>
+	</data>
+</openerp>

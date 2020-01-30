@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+        <data>
+            <record model="ir.ui.view" id="view_pago_especias_concesion_form">
+                <field name="name">pago_especias_concesion.form</field>
+                <field name="model">pago_especias_concesion</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="pago_especias">
+                        <sheet>
+                            <group col="4" columns="4">
+                                <field name="especias_id" select="0"/>
+                                <field name="condicion_id" select="1"/>
+                                <field name="fecha_pago" select="2"/>
+                            </group>
+                        </sheet>                
+                    </form>
+                </field>
+            </record>
+            
+            
+            <record model="ir.ui.view" id="view_pago_especias_tree">
+                <field name="name">pago_especias.tree</field>
+                <field name="model">pago_especias</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="pago_especies">
+                            <field name="especias_id" select="0"/>
+                            <field name="fecha_pago" select="2"/>
+                            <field name="fecha" select="0" on_change="calculo_edad(fecha)"/>
+                    </tree>
+                </field>
+            </record>
+    
+    
+    
+    <record model="ir.actions.act_window" id="action_pago_especies_concesion">
+        <field name="name">Pago en especies</field>
+        <field name="res_model">pago_especies</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form,tree</field>
+    </record>
+    
+     <menuitem name="Pago en especies" id="sidebarpago_especias_"  parent="menu_reg_conc" sequence="20" />
+    
+    </data>
+</openerp>
+

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+         
+<!--
+         vista arbol de rendicion de boletos
+-->
+ 
+         <record id="view_ip_rendicion_boletos_tree" model="ir.ui.view">
+         <field name="name">Rendicion de boletos</field>
+         <field name="model">ip.rendicion.boleto</field>
+         <field name="arch" type="xml">
+            <tree string="Rendiciones" colors="grey:state=='cancel';blue:state in ('paid');green:state in ('done');purple:state in ('invoiced');">
+                <field name="partner_id" string="Order Number"/>
+                <field name="date_order"/>
+                <field name="user_id"/>
+                <field name="sub_total"/>
+                <field name="amount_total" sum="Total Tax Included"/>
+                <field name="state"/>
+            </tree>
+         </field>
+         </record>
+         
+<!--
+         vista formulario de rendicion de boletos
+-->
+         
+
+            <record model="ir.ui.view" id="view_ip_rendicion_boletos_form">
+            <field name="name">Rendicion de boletos</field>
+            <field name="model">ip.rendicion.boleto</field>
+            <field name="arch" type="xml">
+                <form string="Rendicion de boletos">
+                    <header>
+                        <button name="confirmed_rendicion" string="Confirmar" type="object" states="draft,cancel"  class="oe_highlight"/>
+                        <button name="cancel_rendicion" string="Cancelar" type="object" states="draft,confirm"  class="oe_highlight"/>
+                        <button name="rendicion_pagar" string="Pagar" type="object" states="confirm"  class="oe_highlight"/>
+                        <button name="pagar_rendicion" string="Pagar" type="object" states="invoiced"  class="oe_highlight"/>
+                        <button name="imprimir_rendicion" string="Imprimir Rendicion" type="object" states="paid"  class="oe_highlight"/>
+                        <button name="rendicion_terminada" string="Validado" type="object" states="paid"  class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id" on_change="onchange_partner_id(partner_id)" select="1" domain="[('customer','=',True),('parque','=',True)]" string="Parque"/>
+                                <field name="partner_order_id" domain="[('parent_id','=',partner_id)]" widget="selection" string="Orden Contacto"/>
+                                <field name="partner_invoice_id" domain="[('parent_id','=',partner_id)]" widget="selection" string="Dirección de Facturación"/>
+                                <field name="partner_shipping_id" domain="[('parent_id','=',partner_id)]" widget="selection" string="Dirección de Envío"/>
+                            </group>
+                            <group>
+                                <field name="date_order"/>
+                                <field name="pricelist_id" on_change="onchange_pricelist_id(pricelist_id,rendicion_boleto_line)" col="2" widget="selection" string="Posición Fiscal"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="acccount_invoice_id" invisible="1"/>
+                                <field name="verificar_pago" invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Rendición de Boletos">
+                                <field name="rendicion_boleto_line" context="{'default_partner_id':partner_id}"  >
+                                    <form string="Sales Order Lines">
+                                        <header groups="base.group_user">
+                                            <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done" statusbar_colors='{"exception":"red","cancel":"red"}'/>
+                                        </header>
+                                        <group>
+                                            <field name="product_id" context="{'partner_id':parent.partner_id}" on_change="product_id_change(product_id,parent.partner_id)"/>
+                                            <field name="prefijo"/>
+                                            <field name="name"/>
+                                            <field name="partner_id"/>
+                                            <field name="name"/>
+                                            <field name="product_uom_qty"/>
+                                            <field name="price_unit"/>
+                                            <field name="discount"/>
+                                            <field name="taxe_id"/>
+                                        </group>
+                                    </form>
+                                    <tree string="Rendicion de boletos" editable="bottom">
+                                        <field name="state" invisible="1"/>
+                                        <field name="partner_id" invisible="1" />
+                                        <field name="product_id" context="{'partner_id':parent.partner_id}" on_change="product_id_change(product_id,parent.partner_id)"/>
+                                        <field name="prefijo"/>
+                                        <field name="name"/>
+                                        <field name="product_uom_qty"/>
+                                        <field name="price_unit"/>
+                                        <field name="discount"/>
+                                        <field name="taxe_id" widget="many2many_tags"/>
+                                        <field name="price_subtotal" />
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="sub_total" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline" >
+                                        <label for="amount_total" />
+                                        <button name="button_dummy"
+                                            states="draft,sent" string="(Actualizar)" type="object" class="oe_edit_only oe_link"/>
+                                    </div>
+                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+                                <field name="note" class="oe_inline" placeholder="Terminos y condiciones..."/>
+                            </page>
+                           
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        
+<!--
+        vistas de graficos
+-->
+        
+         <record model="ir.ui.view" id="view_ip_rendicion_boletos_graph">
+            <field name="name">Rendicion de boletos</field>
+            <field name="model">ip.rendicion.boleto</field>
+            <field name="arch" type="xml">
+                <graph string="Rendicion de Boletos" type="bar">
+                    <field name="partner_id" type="row"/>
+                    <field name="amount_total" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+         <record model="ir.ui.view" id="view_ip_rendicion_boleto_line_graph">
+            <field name="name">Rendicion de boletos</field>
+            <field name="model">ip.rendicion.boleto.line</field>
+            <field name="arch" type="xml">
+                <graph string="Rendicion de Boletos" type="bar">
+                    <field name="partner_id" type="row"/>
+                    <field name="product_id" type="row"/>
+                    <field name="product_uom_qty" type="measure"/>
+                </graph>
+            </field>
+        </record>
+        
+<!--
+        action para las vistas de rendicion de boletos
+-->
+        
+         <record model="ir.actions.act_window" id="action_ip_rendicion_boleto"> 
+             <field name="name">Rendicion de boletos</field> 
+             <field name="type">ir.actions.act_window</field> 
+             <field name="res_model">ip.rendicion.boleto</field> 
+             <field name="view_type">form</field> 
+             <field name="view_mode">tree,form,graph</field> 
+             <field name="view_id" ref="view_ip_rendicion_boletos_tree"/>
+                <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                De click aqui para rendir las cuentas de los boletos
+                </p>
+                </field>
+         </record> 
+         <record model="ir.actions.act_window" id="action_ip_rendicion_boleto_line"> 
+             <field name="name">Rendicion de boletos</field> 
+             <field name="type">ir.actions.act_window</field> 
+             <field name="res_model">ip.rendicion.boleto.line</field> 
+             <field name="view_mode">graph</field> 
+         </record> 
+         
+<!--
+        menu para las vistas de rendicion de boletos
+-->
+        
+         <menuitem name="Rendición" id="menu_ip_rendicion_boleto" action="action_ip_rendicion_boleto" parent="menu_boletos_inparques_inicio" sequence="50" /> 
+         <menuitem name="Estadísticas de boletos" id="menu_ip_rendicion_boleto_line" action="action_ip_rendicion_boleto_line" parent="menu_boletos_inparques_inicio" sequence="60" /> 
+    </data>
+</openerp>

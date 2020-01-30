@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+       <data>
+        
+<!--
+        VIsta de from    
+-->
+        <record id="asignar_etiquetas_view" model="ir.ui.view">
+            <field name="name">etiqueta_asignar.form</field>
+            <field name="model">etiqueta.asignar</field>
+            <field name="type">form</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+            <form string="Etiquetas">
+                <sheet>
+                    <group col="4" columns="4">
+                        
+                        <field name="etiqueta_id" on_change="mostrar_disponible(etiqueta_id)" select="1"/>
+                        <field name="ano" string="Año"/>
+                        <field name="etiq_disp" string="Etiquetas disponibles"/>
+                        
+                    </group>
+                    <group col="4" columns="4">>
+                        <field name="parque_id"  select="1"/>
+                        <field name="cantidad" string="Cantidad a Asignar" on_change="mostrar_desde(etiqueta_id,parque_id,cantidad)" />
+                        <field name="desde" string="Desde:" />
+                        <field name="hasta" string="Hasta:" />
+                    </group>
+                        <p><center><u><i><b>ASIGNAR</b></i></u></center></p>
+                </sheet>
+            </form>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_etiqueta_asignar">
+        <field name="name">Generar Correlativo</field>
+        <field name="res_model">etiqueta.asignar</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        </record>
+        
+<!--
+          Vista Tree
+-->
+
+        <record model="ir.ui.view" id="asignar_etiqueta_tree">
+            <field name="name">etiqueta_asignar.tree</field>
+            <field name="model">etiqueta.asignar</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Asignar">
+                    <field name="parque_id" select="1"/>
+                    <field name="etiqueta_id" select="1"/>
+                    <field name="cantidad" string="Cantidad de Etiquetas Asignadas"/>
+                    
+                </tree>
+            </field>
+        </record>        
+        
+        <menuitem name="Asignar Etiquetas" 
+        id="menu_etiqueta_asignar" 
+        parent="menu_product_template_etiquetas" 
+        action="action_etiqueta_asignar" 
+        sequence="60" />
+        
+    </data>
+</openerp>

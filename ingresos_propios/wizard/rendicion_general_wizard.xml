@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <record id="view_rendicion_general_wizard_form" model="ir.ui.view">
+            <field name="name">rendicion_general.report.wizard.form</field>
+            <field name="model">rendicion_general.report.wizard</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Rendicion General Report Wizard">
+                    <group>
+<!--
+                    <field name="registro_parque_id2"/>   
+-->
+                    <field name="registro_parque_id" select="1" style="width:80%%" />   
+                    <field name="date_start" select="1" />
+                    <field name="date_end" select="1" />
+                  
+                    </group>
+                    <newline/>
+					<separator colspan='4'/>
+					<newline/>
+					<button icon="gtk-cancel" string="Cancel" special="cancel"/>
+                    <button icon="gtk-print" name="print_report" string="Print" type="object"/>
+               </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_rendicion_general_wizard" >
+            <field name="name">Rendicion General Wizard</field>
+            <field name="res_model">rendicion_general.report.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <menuitem 
+            name="Reporte Rendicion General"
+            id="menu_rendicion_general"
+            parent="menu_general_ingresos_propios"
+            sequence="5"/>
+        <menuitem 
+            name="Rendicion General Reportes"
+            id="menu_rendicion_general_wizard"
+            parent="menu_rendicion_general"
+            action="action_rendicion_general_wizard"
+            sequence="20"/>
+      
+    </data>
+</openerp>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="id_carta_aceptacion">
+    
+<style type="text/css">
+    
+     .margins{
+
+        margin-top: 50px;
+
+        margin-right: 100px;
+
+        margin-left: 100px;
+        
+        line-height:3;
+    }
+     .margins_footer{
+
+        margin-top: 20px;
+
+        margin-right: 100px;
+
+        margin-left: 100px;
+        
+        line-height:1.5;
+    }
+    
+</style>
+
+    
+    
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    
+                 <h5><span><justify>    
+            <div class="row mt32">
+                     <h3>
+                        <span><center><strong>CARTA ACEPTACIÓN</strong></center></span>
+                        </h3>
+                        
+                        
+                <div class="row">
+                    <div class="col-xs-12">
+                         <p class="text-justify margins">
+                         Yo, <u><span t-field=" o.partner_id"/></u>, titular de la cédula de Identidad o RIF. <strong>N°</strong> <u><span t-field=" o.partner_id.rif"/></u>,
+                         <strong>ACEPTO</strong> el canon de contraprestación propuesto por la oficina de Ingresos propios de INPARQUES, 
+                         el cual asciende a la cantidad de <u><span t-field="o.monto_letra2"/></u> (<u><span t-field=" o.pago_mensual"/></u>) Unidades Tributarias, equivalentes
+                         a <u><span t-field="o.monto_letra"/> BOLIVARES</u> (Bs.<u><span t-field=" o.pago_mens"/></u>) Mensuales, que de manera referencial para el momento 
+                         tiene un valor actual de ciento cincuenta bolivares (Bs. 150,00), de conformidad con la resolución emanada
+                         del Ministerio del poder popular de Economía, Finanzas y Banca Pública, publicada en gaceta oficial N°40.608 
+                         de fecha 25 de febrero de 2015. Asimismo <strong>ACEPTO</strong> someterme a las modificaciones que respecto del valor 
+                         de la unidad tributaria, acuerde el Ministerio del Poder popular de Economía, Finanzas y Banca Pública o cualquier otro
+                         organismo que fuere competente al efecto. A los <u><span t-field="o.create_date" 
+                                                                        t-field-options='{"format":"d"}'/></u>
+                                                   dias del mes de       <u><span t-field="o.create_date" 
+                                                                          t-field-options='{"format":"MMMM"}'/></u>
+                                                            de             <u><span t-field="o.create_date" 
+                                                                             t-field-options='{"format":"y"}'/></u>.
+                        
+                         </p>
+                    </div> 
+                </div> 
+                
+                <div class="row mt32">
+                    <div class="col-xs-4">
+                        <p class="text-justify margins_footer">
+                            _________________
+                        <br>Nombre y Apellido</br>
+                        <br>C.I.:</br>
+                        <br>Dirección:</br>
+                        <br>Teléfono:</br>
+                        </p>
+                    </div> 
+                    <div class="col-xs-8">
+                        <p class="text-center margins_footer">
+                        _________________
+                             <br>Firma</br>
+                        </p>
+                    </div> 
+                </div> 
+                  
+                
+               </div> 
+                 </justify></span></h5>     
+                     
+             </div>
+            </t>
+        </t>
+    </t> 
+</template>
+    
+    
+</data>
+</openerp>
+
+
+
+

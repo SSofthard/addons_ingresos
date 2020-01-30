@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp><data>
+
+    <record model="ir.module.category" id="module_category_CATEGORIA">
+        <field name="name">CATEGORIA</field>
+        <field name="description">Agrupa modulos para ...</field>
+        <field name="sequence">16</field>
+    </record>
+    
+    <record id="group_ana_parques" model="res.groups">
+        <field name="name">ANALISTA DE PARQUES</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+    
+    <record id="group_coord_parques" model="res.groups">
+        <field name="name">COORDINADOR DE PARQUES</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+    
+    <record id="group_dir_parques" model="res.groups">
+        <field name="name">DIRECTOR DE PARQUES</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+    
+     <record id="group_dpto_ing_pro" model="res.groups">
+        <field name="name">DEPARTAMENTO DE INGRESOS PROPIOS</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+    
+    <record id="group_asist_dir" model="res.groups">
+        <field name="name">ASISTENTE DE INGRESOS PROPIOS</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+    
+    <record id="group_dir_ing_pro" model="res.groups">
+        <field name="name">DIRECTOR INGRESOS PROPIOS</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+    
+    <record id="group_admin_sist" model="res.groups">
+        <field name="name">ADMINISTRADOR DEL SISTEMA</field>
+        <field name="category_id" ref="module_category_CATEGORIA"/>
+    </record>
+
+</data></openerp>

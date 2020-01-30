@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_requisitos_form">
+        <field name="name">requisitos.form</field>
+        <field name="model">requisitos</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="requisitos">
+                <sheet>
+                <group>
+                <field name="nombre" select="1"/>
+                <field name="observacion" select="1"/>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_requisitos_tree">
+         <field name="name">requisitos.tree</field>
+        <field name="model">requisitos</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="requisitos">
+                <field name="nombre" />
+<!--
+                <field name="observacion" />
+-->
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_requisitos">
+        <field name="name">requisitos</field>
+        <field name="res_model">requisitos</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    <menuitem name="Requisitos para Tramitar" id="next_id_81" parent="base.menu_administration"  sequence="0"/>
+    <menuitem name="Requisitos" id="menu_requisitos" parent="next_id_81" action="action_requisitos" sequence="10" />
+<!--
+    <menuitem name="ingresos_propios" id="menu_ingresos_propios" parent="next_id_85" sequence="10" />
+-->
+
+    </data>
+</openerp>
+

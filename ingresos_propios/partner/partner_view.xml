@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="view_partner_form">
+            <field name="name">res.partner.form.inherit.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="image"  position="replace">
+                    <field name="embarcacion" invisible="1"/>
+                    <field name="marina" invisible="1"/>
+                    <field name="parque" invisible="1"/>
+                <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'
+                    attrs="{'readonly': ['|',('embarcacion','=',True),('marina','=',True),'|',('parque','=',True)]}"/>
+                    </field>
+                <field name="name" invisible="1" position="after">
+                    <h2>
+                        <field name="rif" select="1"  placeholder="Cedula, R.I.F."/>
+                    </h2>
+                </field>
+            <field name="category_id" widget="many2many_tags" placeholder="Tags..." position="replace">
+            </field>
+            <field name="street" position="replace">
+                <field name="street" placeholder="Street..."  attrs="{'readonly': [('use_parent_address','=',True)]}" invisible="1"/>
+                <field name="estado_id" select="1"  placeholder="Estado..." nolabel="1"  attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                <field name="municipio_id" select="1"  placeholder="Municipio..." nolabel="1" attrs="{'readonly': [('use_parent_address','=',True)]}"/>
+                <field name="parroquia_id" select="1"  placeholder="Parroquia..." nolabel="1"/>
+                <field name="sector" select="1"  placeholder="Sector..." nolabel="1"/>
+                <field name="referencia" select="1"  placeholder="Punto de Referencia..." nolabel="1"/>
+            </field>
+            <field name="street2"  position="replace">
+                <field name="street2"  attrs="{'readonly': [('use_parent_address','=',True)]}" invisible="1"/>
+            </field> 
+            <field name="country_id"  position="replace">
+                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}' attrs="{'readonly': [('use_parent_address','=',True)]}" invisible="1"/>
+            </field>
+            <div class="address_format"  position="replace">
+                <field name="city" placeholder="City" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}" invisible="1"/>
+                <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}" invisible="1"/>
+                <field name="zip" placeholder="ZIP" style="width: 20%%" attrs="{'readonly': [('use_parent_address','=',True)]}" invisible="1"/>
+            </div>
+            <div class="oe_title" position="inside">
+                
+                <h2><field name="rif" select="0"  placeholder="Cedula, R.I.FFFFF." style="width: 70%%"/></h2>
+            </div>
+            <field name="use_parent_address" class="oe_inline"
+                   on_change="onchange_address(use_parent_address, parent_id)"
+                   attrs="{'invisible': ['|', ('is_company', '=', True),('parent_id', '=', False)]}" 
+                   position="replace">
+                   <field name="use_parent_address" class="oe_inline"
+                   on_change="onchange_address(use_parent_address, parent_id)"
+                   attrs="{'invisible': ['|', ('is_company', '=', True),('parent_id', '=', False)]}" invisible="1"/>
+                   </field>
+            <label  for="use_parent_address" 
+                    attrs="{'invisible': ['|', ('is_company', '=', True), ('parent_id', '=', False)]}"
+                    position="replace">
+                        <label  for="use_parent_address" 
+                                attrs="{'invisible': ['|', ('is_company', '=', True), ('parent_id', '=', False)]}" invisible="1"/>
+                    </label>
+            <field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%%" position="replace">
+                <field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%%" invisible="1"/>
+            </field>
+            
+            <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}" position="replace">
+                <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', False)]}"/>
+            </label>
+            
+            <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address" position="replace">
+                <div attrs="{'invisible': [('use_parent_address','=', False)]}" name="div_address">
+                    <field name="estado_id" select="1"  placeholder="Estado..." nolabel="1" required ="0"/>
+                    <field name="municipio_id" select="1"  placeholder="Municipio..." nolabel="1"  required ="0"/>
+                    <field name="parroquia_id" select="1"  placeholder="Parroquia..." nolabel="1"  required ="0"/>
+                    <field name="sector" select="1"  placeholder="sector..." nolabel="1"  required ="0"/>
+                    <field name="referencia" select="1"  placeholder="Punto de Referencia..." nolabel="1"/>
+                </div>
+            </div>
+            
+                <div t-if="record.fax.raw_value" position="replace">
+                </div>
+                <notebook colspan="4" position="inside">
+<!--
+Desabilitado para dejar los telefonos de vista previa, si requieren incluir mas numeros telefonicos habilitar esta opción
+                    <page string="Telefonos a Registrar">
+                        <group col="4" colspan="4">
+                            <separator string="Telefonos" colspan="4"/>
+                            <field name="telefonos_ids" colspan="4" nolabel="1" select="0"/>
+                        </group>
+                    </page>
+-->
+                    <page string="Documentos a Registrar">
+                        <group col="2" colspan="2">
+                            <separator string="Documentos" colspan="2"/>
+                            <field name="documentos_ids" colspan="4" nolabel="1" select="0"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_partner_simple_form">
+            <field name="name">res.partner.simplified.form.inherit.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <div class="oe_edit_only" position="replace">
+                            <label for="name" invisible="1"/> (
+                            <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline"/> <label for="is_company" string="Is a Company?"/>)
+                        </div>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_documentos_cliente_form">
+        <field name="name">documentos_cliente.form</field>
+        <field name="model">documentos_cliente</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="documentos">
+                <group>
+                <field name="nombre" select="2"/>
+                <field name="fecha_exp" select="0"/>
+                <field name="fecha_venc" select="0"/>
+                <field name="descripcion" select="0"/>
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_documentos_cliente_tree">
+        <field name="name">documentos_cliente.tree</field>
+        <field name="model">documentos_cliente</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="documentos">
+                <field name="cliente_id"/>
+                <field name="nombre"/>
+                <field name="fecha_exp"/>
+                <field name="fecha_venc"/>
+
+            </tree>
+        </field>
+    </record>
+        
+    </data>
+</openerp>

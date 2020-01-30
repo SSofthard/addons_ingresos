@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_config_captacion_visitantes_form">
+        <field name="name">config_captacion_visitantes.form</field>
+        <field name="model">config_captacion_visitantes</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="captacion_visitantes">
+                <header>
+                <button name="get_default_cap_vis" string="Generar" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                <group>
+                <field name="nombre" select="1" style="width:30%%"/>
+                <field name="porcentaje" select="1"/>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_config_captacion_visitantes_tree">
+         <field name="name">config_captacion_visitantes.tree</field>
+        <field name="model">config_captacion_visitantes</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="captacion_visitantes">
+                <field name="nombre" />
+                <field name="porcentaje" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_config_captacion_visitantes">
+        <field name="name">config_captacion_visitantes</field>
+        <field name="res_model">config_captacion_visitantes</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+            <menuitem id="menu_config_captacion_visitantes" name="Captacion Visitantes" parent="base.menu_config"
+            sequence="80" action="action_config_captacion_visitantes"/>
+    </data>
+</openerp>
+

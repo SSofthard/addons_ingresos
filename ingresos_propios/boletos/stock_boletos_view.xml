@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <openerp>
+        <data>
+            
+
+               
+            
+<!--
+            vista formulario para generar correlativo
+-->
+            
+            <record id="ip_stock_boletos_form" model="ir.ui.view">
+                <field name="name">Generar Boletos</field>
+                <field name="model">ip.stock.boletos</field>
+                <field name="type">form</field>
+                <field name="mode">primary</field>
+                <field name="arch" type="xml">
+                    <form name="boletos" string="Boletos">
+                        <header>
+                            <button name="eliminar_boleto" states="borrador" type='object' string="Eliminar"/> 
+                            <field name="state" widget="statusbar" statusbar_visible="borrador,generado"/>
+                        </header>
+                        <sheet>
+                            <h1>
+                             <label for="producto_id"/>
+                            </h1>
+                            <h1>
+                                <field name="producto_id"  on_change="cantidad_guardados(producto_id)" default_focus="1" style="width: 100%%" />
+                            </h1>
+                            <div class="oe_title oe_left">
+                                <div class="oe_edit_only">
+                                    <label for="name"/> (
+                                        <field name="secuencia"  class="oe_inline" on_change="iniciar_secuencia(secuencia)"/> 
+                                        <label for="secuencia" string="Empezar en 0?"/>)
+                                        </div></div>
+                            <group>  
+                                <field name="ultimo_val" invisible='1'/>
+                            </group>
+                            <group col="4" colunms="4">
+                                <field name="ultimo_valor_2"   string="Cantidad Registrada"/>
+                                <field name="prefijo" />
+                                <field name="cantidad_digitos" />
+                                <field name="cantidad"   on_change="generar_stock(producto_id,ultimo_val,cantidad_digitos,prefijo,cantidad,secuencia)"/>
+                                <field name="boleto_desde_2" attrs="{'invisible': [('cantidad','=', 0)]}" string="Desde"/>
+                                <field name="boleto_hasta_2"  attrs="{'invisible': [('cantidad','=', 0)]}" string="Hasta"/>
+                                <field name="boleto_desde" invisible="1"/>
+                                <field name="boleto_hasta"  invisible="1" />
+                                <field name="active"  invisible="1" />
+                              </group>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                        </div>
+                    </form>
+                </field>
+                </record>
+            
+<!--
+            vista arbol del correlativo
+-->
+            <record model="ir.ui.view" id="ip_stock_boletos_tree">
+                <field name="name">Boletos Generados</field>
+                <field name="model">ip.stock.boletos</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Boletos">
+                        <field name="producto_id" />
+                        <field name="boleto_desde"/>
+                        <field name="boleto_hasta"/>
+                        <field name="cantidad"/>
+                    </tree>
+                </field>
+            </record>
+        
+                
+            <record model="ir.actions.act_window" id="action_ip_stock_boletos">
+                <field name="name">Boletos</field>
+                <field name="res_model">ip.stock.boletos</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="ip_stock_boletos_tree"/>
+                <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                De click aqui para generar boletos
+                </p>
+                </field>
+            </record>
+        
+
+        
+        <menuitem name="Generar boletos" id="menu_ip_stock_boletos" parent="menu_boletos_inparques_inicio"  action="action_ip_stock_boletos" sequence="20" />
+
+    </data>
+</openerp>

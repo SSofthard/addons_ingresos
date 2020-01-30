@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+	#
+	# secuencia para canon de concesiones
+	#
+
+	<record model="ir.sequence.type" id="seq_type_ip_canon_concesiones">
+		<field name="name">ip.canon.concesiones</field>
+		<field name="code">ip.canon.concesiones</field>
+	</record>
+	<record model="ir.sequence" id="seq_ip_canon_concesiones">
+		<field name="name">ip.canon.concesiones</field>
+		<field name="code">ip.canon.concesiones</field>
+		<field name="prefix">CANON-</field>
+		<field name="padding">6</field>
+	</record>
+</data>
+</openerp>

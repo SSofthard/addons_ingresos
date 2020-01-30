@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<openerp>
+<data>
+	
+	<record model="ir.sequence.type" id="seq_type_canon_convenio_telecomunicacion">
+		<field name="name">canon_convenio_telecomunicacion</field>
+		<field name="code">canon_convenio_telecomunicacion</field>
+	</record>
+	<record model="ir.sequence" id="seq_canon_convenio_telecomunicacion">
+		<field name="name">canon_convenio_telecomunicacion</field>
+		<field name="code">canon_convenio_telecomunicacion</field>
+		<field name="prefix">CANON-</field>
+		<field name="padding">6</field>
+	</record>
+</data>
+</openerp>

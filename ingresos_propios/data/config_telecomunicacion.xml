@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data noupdate="1">
+	<!-- Configuracion Telecomunicacion -->
+	
+	<!-- Tarifa para Empresas de TV y Telefonia Publica y Celular. -->
+	<record id="tarifas_propuestas_Tv_Cel_Tel_pub" model="tarifas_propuestas">
+		<field name="name">Tarifa para Empresas de TV y Telefonia Publica y Celular</field>
+		<field name="codigo">TV-TLF</field>
+	</record>
+	<!-- Tarifa para Empresas de Radio y otros servicios de Telecomunicacion. -->
+	<record id="tarifas_propuestas_Rad_Serv_Tel" model="tarifas_propuestas">
+		<field name="name">Tarifa para Empresas de Radio y otros servicios de Telecomunicacion</field>
+        <field name="codigo">RAD-OS</field>
+	</record>
+	
+	</data>
+
+</openerp>

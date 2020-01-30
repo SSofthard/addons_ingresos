@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+        <report id="id_report_rendicion_general"
+            string="Listado rendicion general"
+            model="account_voucher"
+            report_type="qweb-pdf"
+            file="ingresos_propios.id_rendicion_general1_report_qweb"
+            name="ingresos_propios.id_rendicion_general1_report_qweb"
+            menu="False"/>
+	</data>
+
+</openerp>

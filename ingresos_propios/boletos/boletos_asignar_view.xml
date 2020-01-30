@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <openerp>
+        <data>
+            
+<!--
+            vista formulario para asignar boletos
+-->
+            
+            <record id="ip_asignar_boletos_form" model="ir.ui.view">
+                <field name="name">ip.asignar.boletos.form</field>
+                <field name="model">ip.asignar.boletos</field>
+                <field name="type">form</field>
+                <field name="mode">primary</field>
+                <field name="arch" type="xml">
+                    <form name="boletos" string="Boletos">
+                        <header>
+                            <button name="despachar_boleto" string="Despachado"  type="object" states="asignado" class="oe_highlight"/>
+                            <button name="recibido_boleto" string="Recibido"  type="object" states="despachado,nunca_recibido" class="oe_highlight"/>
+                            <button name="nunca_recibido_boleto" string="Nunca Recibido" states="despachado" type="object"  class="oe_highlight" />
+                            <button name="validar_nunca_recibido" string="Validar" states="nunca_recibido" type="object"  class="oe_highlight" />
+                            <button name="reenviar_boleto" string="Reenviar" states="nunca_recibido" type="object"  class="oe_highlight" />
+                            <button name="eliminar_boleto_asignado" string="Eliminar" states="validar" type="object"  class="oe_highlight" />
+                            <field name="state" widget="statusbar" statusbar_visible="asignado,despachado,recibido,nunca_recibido,validar,eliminar,reasignar" statusbar_colors='{"asignado":"blue","recibido":"green","nunca_recibido":"red"}'/>
+                        </header>
+                        <sheet>
+                            
+                            <h1>
+                                <label for="producto_id"/>
+                            </h1>
+                            <h1>
+                                <field name="producto_id"  default_focus="1" style="width: 100%%" on_change='buscar_prefijos(producto_id)' />
+                            </h1>
+                            <group>
+                                <field name="prefijo_disp" attrs="{'invisible': [('producto_id','=', False)]}" string="Boletos Disponibles"/>
+                            </group>
+                            <group col="4" colunms="4">
+                                <field name="parque_id" />
+                                <field name="prefijo" on_change='cantidad_guardados(producto_id,prefijo,cantidad_asignar)'/>
+                                <field name="ultimo_valor_asig_2" string="Boletos Asignados" attrs="{'invisible': [('prefijo','=', False)]}"/>
+                                <field name="cantidad_asignar"  on_change='cantidad_asigna(producto_id,cantidad_asignar,prefijo,ultimo_val_asig)'/>
+                                <field name="boleto_desde_2" string="Desde" attrs="{'invisible': [('cantidad_asignar','=', False)]}"/>
+                                <field name="boleto_hasta_2" string="Hasta" attrs="{'invisible': [('cantidad_asignar','=', False)]}"/>
+                                <field name="boleto_desde" invisible='1'/>
+                                <field name="boleto_hasta" invisible='1'/>
+                                <field name="ultimo_val_asig" invisible='1'/>
+                            </group>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                        </div>
+                    </form>
+                </field>
+                </record>
+            
+<!--
+            vista arbol de los boletos asignados
+-->
+                
+            <record model="ir.ui.view" id="ip_asignar_boletos_tree">
+                <field name="name">ip.asignar.boletos.tree</field>
+                <field name="model">ip.asignar.boletos</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Rendiciones" colors="grey:state=='validar';blue:state in ('asignado');green:state in ('recibido');red:state in ('nunca_recibido');">
+                        <field name="producto_id"/>
+                        <field name="parque_id"/>
+                        <field name="cantidad_asignar" string='Cantidad Asignada'/>
+                        <field name="boleto_desde"/>
+                        <field name="boleto_hasta"/>
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </record>
+            
+<!--
+            vista arbol de los boletos asignados al parque
+-->
+            
+            <record model="ir.ui.view" id="ip_inventario_boletos_parque_tree">
+                <field name="name">ip.inventario.boletos.parque</field>
+                <field name="model">ip.inventario.boletos.parque</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Boletos Asignados">
+                        <field name="producto_id"/>
+                        <field name="parque_id"/>
+                        <field name="existente"/>
+                    </tree>
+                </field>
+            </record>
+        
+            <record model="ir.actions.act_window" id="action_inventario_boletos_parque">
+                <field name="name">Inventario de boletos</field>
+                <field name="res_model">ip.inventario.boletos.parque</field>
+                <field name="view_mode">tree</field>
+            </record>
+            <record model="ir.actions.act_window" id="action_ip_asignar_boletos">
+                <field name="name">Asignar Boletos</field>
+                <field name="res_model">ip.asignar.boletos</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="ip_asignar_boletos_tree"/>
+                <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                De click aqui para asignar boletos
+                </p>
+                </field>
+            </record>
+        
+
+        
+        <menuitem name="Asignar boletos" id="menu_ip_asignar_boletos" parent="menu_boletos_inparques_inicio"  action="action_ip_asignar_boletos" sequence="30" />
+    </data>
+</openerp>

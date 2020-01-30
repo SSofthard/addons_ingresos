@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="seq_type_punto_cuenta_telecom" model="ir.sequence.type">
+            <field name="name">Correlativo punto cuenta telecom</field>
+            <field name="code">config_punto_cuenta_telecom</field>
+        </record>
+
+        <record id="seq_punto_cuenta_telecomm" model="ir.sequence">
+            <field name="name">Correlativo Punto</field>
+            <field name="code">config_punto_cuenta_telecom</field>
+
+            <field name="padding" eval="4"></field>
+            <field name="prefix">TELECOM-</field>
+        </record>
+    </data>
+</openerp>

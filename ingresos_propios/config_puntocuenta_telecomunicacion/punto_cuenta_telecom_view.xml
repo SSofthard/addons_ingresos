@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+         
+         <record id="pt_concesiones_inherit" model="ir.ui.view">
+            <field name="name">pt_concesiones_inherit</field>
+            <field name="model">concesiones</field>
+            <field name="inherit_id" ref="view_concesiones_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" select="1" position="before">
+                    <field name="canon_conv_id" select="1" attrs="{'readonly': [('control_conc','=',False)],'invisible': [('control_conc','=',True)]}"/>
+                </field>
+                </field>
+          </record>
+          
+         <record id="pt_cta_inherit" model="ir.ui.view">
+            <field name="name">punto_cuenta_inherit</field>
+            <field name="model">punto.cuenta</field>
+            <field name="inherit_id" ref="view_punto_cuenta_form"/>
+            <field name="priority" eval="20"/>
+            <field name="arch" type="xml">
+                <header>
+                    <button name="generar_contrato_telecom" string="Generar Contrato Telecom" states="aprobado" type="object"  class="oe_highlight"/>
+                </header>
+               
+                <field name="partner_id" select="1" position="after">
+                <field name="canon_conv_id" attrs="{'readonly': [('punto','=',False)],'invisible': [('punto','=',True)]}"/>
+            </field>
+            </field>
+          </record>
+          
+    <record model="ir.ui.view" id="view_punto_cuenta_telecom_form">
+        <field name="name">config_punto_cuenta_telecom.form</field>
+        <field name="model">config_punto_cuenta_telecom</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            
+            <form string="configuracion telecomunicacion">
+             
+               <sheet>
+               <group col="4" columns="4">
+               <separator string="Configuración de Tarifas" colspan="4"/>
+                <field name="name" required="False" readonly="True" string="Correlativo: "/>
+                <field name="cantidad_unidad_tributaria" required="True" on_change="calculo(cantidad_unidad_tributaria,valor_unidad_tributaria)"/>
+                <field name="tarifas_propuestas_id" on_change="limpiar_selector('tarifas_propuestas')"/>
+                <field name="valor_unidad_tributaria" />
+                <field name="alcance_id" domain="[('tarifas_propuestas_id','=',tarifas_propuestas_id)]" on_change="limpiar_selector('alcance')" />
+                <field name="total_a_cancelar" string = 'Monto en BsF' />
+                <field name="infraestructura_id" />
+                </group>
+             
+             </sheet>
+            </form>
+        </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_punto_cuenta_telecom_tree">
+        <field name="name">config_punto_cuenta_telecom.tree</field>
+        <field name="model">config_punto_cuenta_telecom</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="configuracion telecomunicacion">
+                
+                <field name="name"/>
+                <field name="cantidad_unidad_tributaria" />
+                <field name="alcance_id" />
+               
+    
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_punto_cuenta_telecom">
+        <field name="name">Configuración de Tarifas</field>
+        <field name="res_model">config_punto_cuenta_telecom</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+   
+<!--
+    vista canon telecomunicaciones
+-->
+     <record model="ir.ui.view" id="view_canon_convenio_telecomunicacion_form">
+        <field name="name">canon_convenio_telecomunicacion.form</field>
+        <field name="model">canon_convenio_telecomunicacion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+                        <header>
+                            <button name="confirmar_canon" string="Confirmar" type="object" states="draft,cancel"  class="oe_highlight"/>
+                            <button name="cancelar_canon" string="Cancelar" type="object" states="draft,confirm"  class="oe_highlight"/>
+                            <button name="generar_punto_cuenta_telecom" string="Generar Punto de Cuenta" type="object" states="confirm"  class="oe_highlight"/>
+                            <button name="eliminar_canon" string="Eliminar" type="object" states="draft"  class="oe_highlight"/>
+                            
+
+                            <field name="state" widget="statusbar"/>
+                        </header>
+            
+            <form string="Canon Convenio Telecomunicacion">
+                <sheet>
+                    <group>
+                         <separator colspan="4"/>
+                         <field name="partner_id" style="width:40%" domain="[('parque','=',False),('embarcacion','=',False)]"/>
+                         <field name="valor_unidad_tributaria" string="Valor Unidad Tributaria"/>
+                         <field name="name" required="False" readonly="True" string="Correlativo: "/>
+                         
+                         
+                    </group>
+                    <notebook>
+                            <page string="Inventario Infraestructura">
+                                <field name="inventario_infraestructura_ids" />
+                            </page>
+                            <page string="Canon Exoneracion Otorgada">
+                                <field name="canon_exoneracion_otorgada_ids"/>
+                            </page>
+                            <page string="Total Parque Estación">
+                                <field name="total_parque_estacion_ids" />
+                            </page>
+                            <page string="Parque Total ">
+                                <field name="parque_total_ids" />
+                            </page>
+                            <page string="total por infraestructura ">
+                                <field name="total_infra_ids" />
+                            </page>
+                    </notebook>
+                     <br/>
+                                <h3>Canon en Unidades Tributarias</h3>
+                                 <br/>
+                                    <group col="4" colspan="4">
+                                        
+            
+                                            <field name="total_canon_unidad_tributaria" readonly="1" string="Total U.T" class="oe_inline" />
+                                            <button name="calculo_canon_UT_total" string="⇒ Calcular" type="object" class="oe_link"/>
+                                      
+                                    </group>
+                                <br/>
+                                <h3>Total Canon en Bolivares</h3>
+                                <br/>
+                                    <group col="4" colspan="4">
+                                        
+                                            <field name="total_canon_en_Bs" readonly="1" string="Total Bs"  class="oe_inline" />
+
+                                        
+                                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_canon_convenio_telecomunicacion_tree">
+         <field name="name">canon_convenio_telecomunicacion.tree</field>
+        <field name="model">canon_convenio_telecomunicacion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Canon Convenio Telecomunicacion">
+               
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_canon_convenio_telecomunicacion">
+        <field name="name">Registro de Canon Telecomunicación</field>
+        <field name="res_model">canon_convenio_telecomunicacion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+<!--
+    vista inventario infraestructura 
+-->
+    
+    
+        <record model="ir.ui.view" id="view_inventario_infraestructura_form">
+        <field name="name">inventario_infraestructura.form</field>
+        <field name="model">inventario_infraestructura</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="inventario infraestructura">
+               
+                        <group>
+                            <field name="parque_id" select="0" on_change="filtro_parque_estacion(parque_id,'registro_parque')" style="width:40%" />
+                            <field name="estacion_id" style="width:40%"/>
+                            <field name="config_puntocuenta_telecom_id" on_change="accederUT(config_puntocuenta_telecom_id)"  style="width:40%"/>
+                            <field name="valor_ut_por_infra" on_change="calculo_infra_bs(valor_ut_por_infra,total_infraestructura)" style="width:40%"  />
+                            <field name="cantidad_total_infra" select="0" on_change="calculo_total_infra(cantidad_total_infra,cantidad_exonerada)"/>
+                            <field name="cantidad_exonerada" select="0" on_change="calculo_total_infra(cantidad_total_infra,cantidad_exonerada)"/>
+                            <field name="total_infraestructura" on_change="calculo_infra_bs(valor_ut_por_infra,total_infraestructura)" string="Total infraestructura" />
+
+                            <field name="total_infraestructura_bs" string="Total infraestructura en Bs" />
+                        </group>
+              
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_canon_convenio_telecomunicacion_tree">
+        <field name="name">inventario_infraestructura.tree</field>
+        <field name="model">inventario_infraestructura</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="inventario_infraestructura" options='{"no_create": True}'>
+               
+                <field name="parque_id"/>
+                <field name="estacion_id" string="Estación"/>
+                <field name="config_puntocuenta_telecom_id" string="Infraestructura"/>
+                <field name="valor_ut_por_infra" string="Valor Infraestructura"/>
+                <field name="cantidad_total_infra" string="CT Infraestructura"/>
+                <field name="cantidad_exonerada"/>
+                <field name="total_infraestructura" string="Total Infraestructura"/>
+                <field name="total_infraestructura_bs" string="Total Bolivares"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_inventario_infraestructura">
+        <field name="name">inventario_infraestructura</field>
+        <field name="res_model">inventario_infraestructura</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    
+<!--
+   vista canon exoneracion otorgada
+-->
+    
+    
+         <record model="ir.ui.view" id="view_canon_exoneracion_otorgada_form">
+        <field name="name">canon_exoneracion_otorgada.form</field>
+        <field name="model">canon_exoneracion_otorgada</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Canon Exoneracion Otorgada">
+                <sheet>
+                    <group>
+                            <field name="categoria_exoneracion_id"/>
+                            <field name="infraestructura_id"/>
+                            <field name="cantidad_canon"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_canon_exoneracion_otorgada_tree">
+         <field name="name">canon_exoneracion_otorgada.tree</field>
+        <field name="model">canon_exoneracion_otorgada</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="canon exoneracion otorgada">
+               
+<!--
+                <field name="canon_convenio_telecomunicacion_id"/>
+-->
+                <field name="categoria_exoneracion_id"/>
+                <field name="infraestructura_id"/>
+                <field name="cantidad_canon"/>
+      
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_canon_exoneracion_otorgada">
+        <field name="name">canon_exoneracion_otorgada</field>
+        <field name="res_model">canon_exoneracion_otorgada</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>  
+      
+<!--
+vista total parque estacion
+-->
+
+ <record model="ir.ui.view" id="view_total_parque_estacion_form">
+        <field name="name">total_parque_estacion.form</field>
+        <field name="model">total_parque_estacion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="total parque estacion">
+               
+                        <group>
+                          <field name="parque_id"/>
+                          <field name="estacion_id"/>
+                          <field name="total"/>
+                        </group>
+              
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_total_parque_estacion_tree">
+        <field name="name">total_parque_estacion.tree</field>
+        <field name="model">total_parque_estacion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="total parque estacion">
+               
+                <field name="parque_id"/>
+                <field name="estacion_id"/>
+                <field name="total"/>
+               
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_total_parque_estacion">
+        <field name="name">Total Parque Estacion</field>
+        <field name="res_model">total_parque_estacion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+<!--
+vista parque total
+-->
+
+        <record model="ir.ui.view" id="view_parque_total_form">
+        <field name="name">parque_total.form</field>
+        <field name="model">parque_total</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="total parque estacion">
+               
+                        <group>
+                          <field name="parque_id"/>
+                          <field name="totalidad"/>
+                        </group>
+              
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_parque_total_tree">
+        <field name="name">parque_total.tree</field>
+        <field name="model">parque_total</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="total parque">
+               
+                <field name="parque_id"/>
+                <field name="totalidad"/>
+               
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_parque_total">
+        <field name="name">Total Parque</field>
+        <field name="res_model">parque_total</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+<!--
+vista total infraestructura 
+-->
+
+        <record model="ir.ui.view" id="view_total_infra_form">
+        <field name="name">total_infra.form</field>
+        <field name="model">total_infra</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Total por Infraestructura">
+               
+                        <group>
+                          <field name="infraestructura_id"/>
+                          <field name="infra_total"/>
+                          <field name="ut_por_infra"/>
+                          <field name="total_por_infra"/>
+                          <field name="total_infra_bs"/>
+                        </group>
+              
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_total_infra_tree">
+        <field name="name">total_infra.tree</field>
+        <field name="model">total_infra</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Total por Infraestructura">
+               
+                 <field name="infraestructura_id"/>
+                 <field name="infra_total"/>
+                 <field name="ut_por_infra"/>
+                 <field name="total_por_infra"/>
+                 <field name="total_infra_bs"/>
+               
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_total_infra">
+        <field name="name">Total por Infraestructura</field>
+        <field name="res_model">total_infra</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+        <menuitem name="Canon" id="menu_ip_canon"    parent="ingresos_propios.menu_general_ingresos_propios" sequence="40" />
+        <menuitem name="Canon Telecomunicación" id="menu_ip_canon_concesiones" parent="menu_ip_canon"   sequence="10" />
+        <menuitem name="Registro de Canon " id="menu_canon_telecom" parent="menu_ip_canon_concesiones" sequence="20" action="action_canon_convenio_telecomunicacion"  />
+        <menuitem name="Valores de Tarifas" id="menu_punto_telecom" parent="menu_ip_canon_concesiones" action="action_punto_cuenta_telecom" sequence="10" />
+  
+  
+
+
+    </data>
+</openerp>

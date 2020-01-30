@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="seq_type_autorizacion" model="ir.sequence.type">
+            <field name="name">Correlativo Autorizacion</field>
+            <field name="code">autorizacion</field>
+        </record>
+
+        <record id="seq_autorizacion" model="ir.sequence">
+            <field name="name">Correlativo Autorizacion</field>
+            <field name="code">autorizacion</field>
+
+            <field name="padding" eval="6"></field>
+            <field name="prefix">AUTORIZACION-</field>
+        </record>
+    </data>
+</openerp>

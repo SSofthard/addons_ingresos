@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+<template id="id_template_autorizacion_qweb">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="report.external_layout">
+                <div class="page">
+                    <div class="row"> 
+                    
+                    <div class="col-xs-10">
+                   
+                            </div> 
+                            <div class="col-xs-2">
+                            <p class="text-left">    
+                            <td><strong>Correlativo</strong></td>
+                            <span t-field="o.name"/>
+                            </p>
+                    </div> 
+                    </div>
+                        <h3>
+                        <span><center>Autorizacion</center></span>
+                        </h3>
+                    
+                    <div class="row mt32 mb32">
+                    <div class="text-center">
+<!--
+                        <strong>From:</strong>
+                        
+                        <strong>To:</strong>
+-->
+                        
+                    </div>
+                </div>
+                
+                <div class="row mt32 mb32">
+                <div class="col-xs-2" t-if="o.name">
+                    <strong>Description:</strong>
+                    <p t-field="o.name"/>
+                </div>
+                <div class="col-xs-2" t-if="o.fecha_inicio">
+                    <strong>Fecha de Facturacion:</strong>
+                    <p t-field="o.fecha_inicio"/>
+                </div>
+              
+                <div class="col-xs-2" t-if="o.partner_id">
+                    <strong>Autorizado(a):</strong>
+                    <p t-field="o.partner_id"/>
+                </div>
+                <div class="col-xs-2" t-if="o.name">
+                    <strong>Reference:</strong>
+                    <p t-field="o.name"/>
+                </div>
+            </div>
+                <table class="border-black">
+                    <tr class="border-black">
+                       
+                        <td><strong>Fecha de Inicio</strong></td>
+                        <td><strong>Fecha Fin</strong></td>
+                        <td><strong>Personas/Empresas</strong></td>
+                        <td><strong>Tipo de Actividad</strong></td>
+                        <td><strong>Valor Unidad Tributaria</strong></td>
+                        <td><strong>Unidad Tributaria Mensual</strong></td>
+                    </tr>
+                    <tr>
+                    
+                    <td><span t-field="o.fecha_inicio"/></td>
+                    <td><span t-field="o.fecha_fin"/></td>
+                    <td><span t-field="o.partner_id"/></td>
+                    <td><span t-field="o.tipo_actividad_id"/></td>
+                    <td><span t-field="o.valor_unidad_tributaria"/></td>
+                    <td><span t-field="o.unidad_tributaria_mensual"/></td>
+                    </tr>
+                     </table>
+                     
+                     
+                        <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="border-black">
+                        <tr class="border-black">
+                            <td><strong>Total Without Taxes</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.taxes_id.name" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Taxes</td>
+                            <td class="text-right">
+                                <span t-field="o.taxes_id.name" />
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td><strong>Total</strong></td>
+                            <td class="text-right">
+                                 <span t-field="o.pago_mens" />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div> 
+                     
+                </div>
+            </t>
+        </t>
+       </t> 
+</template>
+    
+    
+</data>
+</openerp>

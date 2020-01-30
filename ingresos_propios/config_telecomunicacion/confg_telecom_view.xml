@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_tarifas_propuestas_form">
+        <field name="name">tarifas_propuestas.form</field>
+        <field name="model">tarifas_propuestas</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Tarifas propuestas">
+                <sheet>
+                <group>
+                <field name="name" select="1" style="width:80%%"/>
+                <field name="codigo" select="1" style="width:20%%" />
+                </group>
+                  
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_tarifas_propuestas_tree">
+         <field name="name">tarifas_propuestas.tree</field>
+        <field name="model">tarifas_propuestas</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Tarifas propuestas">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_tarifas_propuestas">
+        <field name="name">Tarifas propuestas</field>
+        <field name="res_model">tarifas_propuestas</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_alcance_form">
+        <field name="name">alcance.form</field>
+        <field name="model">alcance</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Alcance">
+                <sheet>
+                <group>
+                <field name="name" select="1" style="width:80%%"/>
+                <field name="tarifas_propuestas_id" select="1" style="width:80%%"/>
+                 <field name="codigo" select="1" style="width:20%%" />
+               
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_alcance_tree">
+         <field name="name">alcance.tree</field>
+        <field name="model">alcance</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Alcance">
+                <field name="name" />
+                <field name="tarifas_propuestas_id"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_alcance">
+        <field name="name">Alcance</field>
+        <field name="res_model">alcance</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    
+        <record model="ir.ui.view" id="view_infraestructura_form">
+        <field name="name">infraestructura.form</field>
+        <field name="model">infraestructura</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="infraestructura">
+                <sheet>
+                <group>
+                <field name="name" select="1" style="width:80%%"/>
+               
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_infraestructura_tree">
+         <field name="name">infraestructura.tree</field>
+        <field name="model">infraestructura</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Infraestructura">
+                <field name="name" />
+                
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_infraestructura">
+        <field name="name">Infraestructura</field>
+        <field name="res_model">infraestructura</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+   
+    <menuitem name="Config. Telecomunicacion" id="menu_confg_tel" parent="base.menu_administration"  sequence="2" />
+    <menuitem name="Tarifa" id="menu_trf_telc" parent="menu_confg_tel" action="action_tarifas_propuestas" sequence="10" />
+    <menuitem name="Alcance" id="menu_alc_telc" parent="menu_confg_tel" action="action_alcance" sequence="20" />
+    <menuitem name="Infraestructura" id="menu_inf_telc" parent="menu_confg_tel" action="action_infraestructura" sequence="30" />
+
+    </data>
+</openerp>

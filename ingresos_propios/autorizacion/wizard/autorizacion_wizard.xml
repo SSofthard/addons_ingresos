@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="autorizacion_wizard_form">
+            <field name="name">autorizacion_wizard_form</field>
+            <field name="model">autorizacion.wizard</field>
+            <field name="arch" type="xml">
+            
+                <form string="1.- Fecha nac/defuc." version='8.0'>
+                    <group col="4">
+                        <field name="date_start"/>
+                        <field name="date_end"/>
+                    </group>            
+                    <footer>            
+
+                        <button string="Imprimir" type="object" icon="gtk-print" name='imprimir_reporte' />
+                        <button string="Cancelar" special="cancel"  icon="gtk-cancel"/>
+
+                    </footer>
+                </form>
+            </field>
+        </record>
+        
+         <record id="action_autorizacion_wizard"
+            model="ir.actions.act_window">
+            <field name="name">autorizacion_wizard</field>
+            <field name="res_model">autorizacion.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+            <menuitem
+            name="autorizaciones" 
+            action="action_autorizacion_wizard"
+            parent="menu_sub_aut"
+            id="wizard_reg_user_menu"
+            sequence="30"/>
+
+    </data>
+</openerp>

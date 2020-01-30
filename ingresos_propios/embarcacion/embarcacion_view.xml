@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+        <record id="act_etiquetas_asignadas_embarcacion" model="ir.actions.act_window">
+        <field name="name">Etiquetas Asignadas embarcacion</field>
+        <field name="res_model">ip.correlativo.generar</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('matricula_id', '=', active_id)]</field>
+        <field name="context">{'search_default_embarcacion': active_id}</field>
+        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to create a quotation or sales order for this customer.
+              </p>
+        </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_conc_registro_embarcaciones_form">
+        <field name="name">conc.registro_embarcaciones.form</field>
+        <field name="model">conc.registro_embarcaciones</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Embarcaciones">
+                <sheet>
+                     <button class="oe_inline oe_stat_button" type="action" name="%(act_etiquetas_asignadas_embarcacion)d"
+                        icon="fa-strikethrough">
+                        <field string="Etiq. Asignadas" name="etiq_embarcacion" widget="statinfo" />
+                    </button>
+
+                    <field name="image1" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                    <div class="oe_title oe_left">
+                        <div class="oe_edit_only">
+                            <label for="name" string="Datos de la Embarcación"/> 
+                            <field name="is_company"
+                             invisible="1"
+                            on_change="onchange_type(is_company)"
+                            class="oe_inline"/> 
+                            <label for="is_company" string="Is a Company?" invisible="1"/>
+                        </div>
+                    <h1>
+                        <field name="name" string="Embarcacion" placeholder="Embarcación..."  required ="1"/>
+                    </h1>
+                    <h2>
+                        <field name="rif"  placeholder="Matricula..." required ="1" help="Numero de RIF de la Marina"/>
+                    </h2>
+                    </div>
+                         <group>
+                            <field name="tipo_embarcacion_id" style="width: 33%%"/>
+                            <field name="pies" style="width: 33%%"/>
+                            <field name="marina_id" domain="[('marina','=',True)]" style="width: 33%%"/>
+                            <field name="lugar_embarque_id" style="width: 33%%"/>
+                        </group>
+                    <notebook colspan="4">
+                        <page string="Contacto" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])]}" autofocus="autofocus">
+                            <field string="Contacto" name="child_ids" mode="kanban">
+                                <kanban>
+                                    <field name="color"/>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="email"/>
+                                    <field name="rif"/>
+                                    <field name="parent_id"/>
+                                    <field name="is_company"/>
+                                    <field name="function"/>
+                                    <field name="phone"/>
+                                    <field name="street"/>
+                                    <field name="street2"/>
+                                    <field name="zip"/>
+                                    <field name="city"/>
+                                    <field name="country_id"/>
+                                    <field name="mobile"/>
+                                    <field name="fax"/>
+                                    <field name="state_id"/>
+                                    <field name="has_image"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                            <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '')" style="position: relative">
+                                                <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                                                <div class="oe_module_vignette">
+                                                    <a type="open">
+                                                        <t t-if="record.has_image.raw_value === true">
+                                                            <img t-att-src="kanban_image('res.partner', 'image', record.id.value, {'preview_image': 'image_small'})" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                        <t t-if="record.image and record.image.raw_value !== false">
+                                                            <img t-att-src="'data:image/png;base64,'+record.image.raw_value" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                        <t t-if="record.has_image.raw_value === false and (!record.image or record.image.raw_value === false)">
+                                                        <t t-if="record.is_company.raw_value === true">
+                                                            <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                        <t t-if="record.is_company.raw_value === false">
+                                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                    </t>
+                                                    </a>
+                                                        <div class="oe_module_desc">
+                                                            <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
+                                                                <table class="oe_kanban_table">
+                                                                    <tr>
+                                                                        <td class="oe_kanban_title1" align="left" valign="middle">
+                                                                            <h4><a type="open"><field name="name"/></a></h4>
+                                                                            <i><div t-if="record.function.raw_value">
+                                                                                <field name="function"/></div></i>
+                                                                            <div><a t-if="record.email.raw_value" title="Mail" t-att-href="'mailto:'+record.email.value">
+                                                                                <field name="email"/>
+                                                                            </a></div>
+                                                                            <div t-if="record.rif.raw_value">Cedula/RIF: <field name="rif"/></div>
+                                                                            <div t-if="record.mobile.raw_value">Celular: <field name="mobile"/></div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                                    <form string="Contact">
+                                        <sheet>
+                                            <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                                            <div class="oe_title">
+                                                <label for="name" class="oe_edit_only"/>
+                                                <h1><field name="name" style="width: 70%%"/></h1>
+                                                <field name="rif" placeholder="Cedula/Rif..." style="width: 70%%"/>
+                                            </div>
+                                                <group>
+                                                    <field name="function" placeholder="e.g. Sales Director"/>
+                                                    <field name="email"/>
+                                                    <field name="phone"/>
+                                                    <field name="mobile"/>
+                                                </group>
+                                                <group>
+                                                    <field name="estado_id" select="1"  placeholder="Estado..." nolabel="1"/>
+                                                    <field name="municipio_id" select="1"  placeholder="Municipio..." nolabel="1"/>
+                                                    <field name="parroquia_id" select="1"  placeholder="Parroquia..." nolabel="1"/>
+                                                    <field name="sector" select="1"  placeholder="Sector..." nolabel="1"/>
+                                                    <field name="referencia" select="1"  placeholder="Punto de Referencia..." nolabel="1"/>
+                                                </group>
+                                        </sheet>
+                                    </form>
+                                </field >
+                            </page>
+                            <page string="Documentos a Registrar">
+                                <group col="2" colspan="2">
+                                    <separator string="Documentos" colspan="2"/>
+                                    <field name="documentos_ids" colspan="4" nolabel="1" select="0"/>
+                                </group>
+                            </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+        <!-- Partner Kanban View -->
+        <record model="ir.ui.view" id="res_registro_embarcaciones_kanban_view">
+            <field name="name">conc.registro_embarcaciones.kanban</field>
+            <field name="model">conc.registro_embarcaciones</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="color"/>
+                    <field name="display_name"/>
+                    <field name="title"/>
+                    <field name="rif"/>
+                    <field name="email"/>
+                    <field name="parent_id"/>
+                    <field name="is_company"/>
+                    <field name="function"/>
+                    <field name="phone"/>
+                    <field name="street"/>
+                    <field name="street2"/>
+                    <field name="zip"/>
+                    <field name="city"/>
+                    <field name="country_id"/>
+                    <field name="mobile"/>
+                    <field name="state_id"/>
+                    <field name="category_id"/>
+                    <field name="has_image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_semantic_html_override">
+                                <a type="open">
+                                                    <t t-if="record.has_image.raw_value === true">
+                                                        <img t-att-src="kanban_image('conc.registro_embarcaciones', 'image1', record.id.value, {'preview_image': 'image_small'})" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                    </t>
+                                                    <t t-if="record.image1 and record.image1.raw_value !== false">
+                                                        <img t-att-src="'data:image1/png;base64,'+record.image1.raw_value" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                                                    </t>
+                                                    <t t-if="record.has_image.raw_value === false and (!record.image1 or record.image1.raw_value === false)">
+                                                        <t t-if="record.is_company.raw_value === true">
+                                                            <img t-att-src='_s + "/ingresos_propios/static/img/barcos2.jpg"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                        <t t-if="record.is_company.raw_value === false">
+                                                            <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                                                        </t>
+                                                    </t>
+                                                </a>
+                                <div class="oe_kanban_details">
+                                    <h4 class="oe_partner_heading"><a type="open"><field name="display_name"/></a></h4>
+                                    <div class="oe_kanban_partner_categories"/>
+                                    <div class="oe_kanban_partner_links"/>
+                                    <ul>
+                                        <li t-if="record.parent_id.raw_value and !record.function.raw_value"><field name="parent_id"/></li>
+                                        <li t-if="!record.parent_id.raw_value and record.function.raw_value"><field name="function"/></li>
+                                        <li t-if="record.parent_id.raw_value and record.function.raw_value"><field name="function"/> at <field name="parent_id"/></li>
+                                        <li t-if="record.city.raw_value and !record.country_id.raw_value"><field name="city"/></li>
+                                        <li t-if="!record.city.raw_value and record.country_id.raw_value"><field name="country_id"/></li>
+                                        <li t-if="record.city.raw_value and record.country_id.raw_value"><field name="city"/>, <field name="country_id"/></li>
+                                        <li t-if="record.email.raw_value"><a t-attf-href="mailto:#{record.email.raw_value}"><field name="email"/></a></li>
+                                        <li t-if="record.rif.raw_value">Nombre:<field name="name"/></li>
+                                        <li t-if="record.marina_id.raw_value">Marina:<field name="marina_id"/></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="view_conc_registro_embarcaciones_tree">
+            <field name="name">conc.registro_embarcaciones.tree</field>
+            <field name="model">conc.registro_embarcaciones</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Embarcaciones">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_conc_registro_embarcaciones">
+            <field name="name">Embarcaciones</field>
+            <field name="res_model">conc.registro_embarcaciones</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="view_id" ref="view_conc_registro_embarcaciones_tree"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                Aqui se registran los Datos de las Embarcaciones 
+                </p>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_tipo_embarcacion_form">
+            <field name="name">conc.tipo_embarcacion.form</field>
+            <field name="model">conc.tipo_embarcacion</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Tipo de Embarcación">
+                    <group>
+                    <field name="nombre" select="1"  style="width: 40%%"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_tipo_embarcacion_tree">
+            <field name="name">conc.tipo_embarcacion.tree</field>
+            <field name="model">conc.tipo_embarcacion</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="redi">
+                    <field name="nombre"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="action_conc_tipo_embarcacion">
+        <field name="name">Tipo Embarcaciones</field>
+        <field name="res_model">conc.tipo_embarcacion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_tipo_embarcacion_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Tipos de las Embarcaciones 
+            </p>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_documentos_embarcacion_form">
+        <field name="name">documentos_embarcacion.form</field>
+        <field name="model">documentos_embarcacion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="documentos">
+                <group>
+                <field name="nombre" select="2"/>
+                <field name="fecha_exp" select="0"/>
+                <field name="fecha_venc" select="0"/>
+                <field name="descripcion"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_documentos_embarcacion_tree">
+        <field name="name">documentos_embarcacion.tree</field>
+        <field name="model">documentos_embarcacion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="documentos">
+                <field name="registro_embarcaciones_id"/>
+                <field name="nombre"/>
+                <field name="fecha_exp"/>
+                <field name="fecha_venc"/>
+
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_lugar_embarque_form">
+        <field name="name">lugar_embarque.form</field>
+        <field name="model">conc.lugar_embarque</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="lugar de embarque">
+                <group>
+                    <field name="lugar_embarque" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <menuitem name="Gestión Embarcación" id="menu_gest_embarcacion" parent="ingresos_propios.menu_general_ingresos_propios" sequence="50"/>
+        <menuitem name="Embarcaciones" id="menu_embarcacion" parent="menu_gest_embarcacion" sequence="0"/>
+			<menuitem name="Registro de Embarcaciones" 
+            id="menu_registro_embarcaciones" 
+            action="action_conc_registro_embarcaciones" 
+            parent="menu_embarcacion" 
+            sequence="0"/>
+			<menuitem name="Tipo de Embarcaciones" 
+            id="menu_tipo_embarcaciones" 
+            action="action_conc_tipo_embarcacion" 
+            parent="menu_embarcacion" 
+            sequence="10"/>
+			
+    </data>
+</openerp>

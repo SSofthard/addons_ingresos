@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--
+        cambie de id_report_menu_data a report_menu_data
+-->
+		<report id="report_menu_data"
+			string="Etiqueta Autorizacion"
+			model="autorizacion"
+			report_type="qweb-pdf"
+			file="autorizacion.id_template_autorizacion_qweb"
+            name="autorizacion.id_template_autorizacion_qweb"
+            menu="True"/>
+	</data>
+</openerp>

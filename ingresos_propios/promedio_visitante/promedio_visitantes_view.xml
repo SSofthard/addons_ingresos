@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+
+     <data>
+    <record model="ir.ui.view" id="view_promedio_visitantes_form">
+        <field name="name">promedio_visitantes.form</field>
+        <field name="model">promedio_visitantes</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Promedio_de_visitantes_form">
+                <sheet>
+                <group col="2" colspan="2">
+                    <field name="parque_id"     select="1" style="width:30%%"/>
+                    <field name="mes"        string="Mes" style="width:30%%"/>
+                    <field name="anio"          string="Año" style="width:30%"/>
+                    <field name="menor_edad"    select="2"  on_change="total_visitantes(menor_edad,adultos,tercera_edad)"/>
+                    <field name="adultos"       select="2"  on_change="total_visitantes(menor_edad,adultos,tercera_edad)"/>
+                    <field name="tercera_edad"     select="2"  on_change="total_visitantes(menor_edad,adultos,tercera_edad)"/>
+                    <field name="total_function"  string="Total"   select="2"/>
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_promedio_visitantes_tree">
+         <field name="name">promedio_visitantes.tree</field>
+        <field name="model">promedio_visitantes</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="promedio_de_visitantes_lista">
+                    <field name="parque_id" select="1"/>
+                    <field name="mes" string="Mes"/>
+                    <field name="anio" string="Año"/>
+                    <field name="menor_edad" select="2"/>
+                    <field name="adultos" select="2"/>
+                    <field name="tercera_edad" style="width:10%%" select="2"/>
+                    <field name="total_function" string="Total"  select="2"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_promedio_visitante">
+        <field name="name">Promedio visitantes</field>
+        <field name="res_model">promedio_visitantes</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_promedio_visitantes_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            Aqui se registran los Datos de las Cantidades de Visitantes de cada Parque 
+            </p>
+        </field>
+    </record>
+    
+    
+    
+       
+      <menuitem name="Promedio de visitantes" 
+        id="header_promedio_de_visitantes" parent="ingresos_propios.menu_general_ingresos_propios" sequence="70"
+        />
+
+        <menuitem name="Calculo de promedio de visitts."
+            id="menu_calculo_promedio_visitantes"
+            parent="header_promedio_de_visitantes"  
+            sequence="10"
+            />
+            
+<!--
+            <menuitem name="Carga de datos." 
+                id="Carga_de_datos" 
+                parent="menu_calculo_promedio_visitantes"  
+                action="action_promedio_visitante" 
+                sequence="10" 
+                />
+-->
+            <menuitem name="Registro de datos." 
+                id="registro_datos" 
+                parent="menu_calculo_promedio_visitantes"  
+                action="action_promedio_visitante" 
+                sequence="10" 
+                />
+      
+      
+    </data>
+</openerp>
+

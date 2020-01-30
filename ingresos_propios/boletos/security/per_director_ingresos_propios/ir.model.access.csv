@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ip_boletos,ip.boletos,model_ip_boletos,group_dir_ing_pro,1,0,0,0
+access_ip_asignar_boletos,ip.asignar.boletos,ingresos_propios.model_ip_asignar_boletos,group_dir_ing_pro,1,0,0,0
+access_ip_inventario_boletos_parque,ip.inventario.boletos.parque,model_ip_inventario_boletos_parque,group_dir_ing_pro,1,0,0,0
+access_ip_incidencia_boletos,ip.incidencia.boletos,model_ip_incidencia_boletos,group_dir_ing_pro,1,0,0,0

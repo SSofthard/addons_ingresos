@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_autorizacion_form">
+        <field name="name">autorizacion.form</field>
+        <field name="model">autorizacion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            
+            <form string="autorizacion">
+                <header>
+                        <button name="pagar_autorizacion"  string="Pagar" type="object" states="draft" class="oe_highlight"/>
+                        <button name="pagar_autorizacion_facturada"  string="Pagar" type="object" states="invoiced" class="oe_highlight"/>
+                        <field name="state" widget="statusbar"/>
+                         
+                </header>
+
+               <sheet>
+               <group col="4" columns="4">
+               <separator string="Autorizacion" colspan="4"/>
+                <field name="name" required="False" readonly="True" string="Correlativooooooooooo: "/>
+                <field name="tipo_actividad_id" />
+                <field name="partner_id" select="0"/>
+                <field name="parque_id" />
+                <field name="active" invisible="1"/>
+                <field name="verificar_pago" invisible="True"/>
+
+                </group>
+                <group col="4" columns="4">
+                
+                <separator colspan="4"/>
+                
+                   <field name="valor_unidad_tributaria" />
+                   <field name="fecha_inicio" required="True"/>
+                   <field name="unidad_tributaria_mensual" required="True"  on_change="calculo(unidad_tributaria_mensual,valor_unidad_tributaria)"/>
+                   <field name="fecha_fin" required="True" on_change="validar_fecha_permiso(fecha_inicio, fecha_fin)" />
+                   <field name="pago_mens"  string = 'Monto a Cancelar' />
+                </group>
+                  
+                
+             </sheet>
+            </form>
+        </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_autorizacion_tree">
+        <field name="name">autorizacion.tree</field>
+        <field name="model">autorizacion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Autorizacion">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="tipo_actividad_id" />
+                <field name="parque_id" />
+                <field name="valor_unidad_tributaria" class="oe_inline"/>
+                <field name="unidad_tributaria_mensual" class="oe_inline"/>
+                <field name="pago_mens"  string = 'Monto a Cancelar' class="oe_inline"/>
+                <field name="state"  string = 'Estado' class="oe_inline"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="action_autorizacion">
+        <field name="name">autorizacion</field>
+        <field name="res_model">autorizacion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+
+   
+    <menuitem name="Gestion Autorizacion" id="menu_aut" parent="ingresos_propios.menu_general_ingresos_propios" sequence="20"/>
+        <menuitem name="Registro Autorizacion" id="menu_sub_aut"  parent="menu_aut"/>
+            <menuitem name="Autorizacion" id="menu_autorizacion" action="action_autorizacion"  parent="menu_sub_aut" sequence="20"/>
+           
+   
+    </data>
+</openerp>

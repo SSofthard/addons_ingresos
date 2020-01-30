@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+       <data>
+           
+<!--
+           VIsta de Formulario
+-->
+            <record id="ip_etiqueta_form_view" model="ir.ui.view">
+                <field name="name">etiquetas.form</field>
+                <field name="model">etiquetas</field>
+                <field name="type">form</field>
+                <field name="mode">primary</field>
+                <field name="arch" type="xml">
+                    <form string="Boletos">
+                        <sheet>
+                           <field name="image_medium" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                           
+                           <div class="oe_title oe_left">
+                               <div class="oe_edit_only">
+                                   <label for="name" string="Nombre del producto"/>
+                                       <h1><field name="name" class="oe_inline"/></h1>
+                               </div>
+                        
+                           </div>
+                           <group colspan="4">
+                               <group>
+                                   <field name="type" string="Tipo de producto"/>
+                                   <field name="cant_unid_tribut" string="Cantidad de Unidad Tributaria"/>
+                                   <field name="anio" string="Año"/>
+                               </group>
+                               <group>
+                                   <field name="active"/>
+                                   <field name="default_code"/>
+                               </group>
+                           </group>
+                           
+                           <notebook>
+                               <page string="Informacion">
+                                   <group colspan="4">
+                                       <group>
+                                           <field name="precio_venta" string="Precio de Venta" readonly="1"/>
+                                       </group>
+                                   </group>
+                                            
+                                   <group colspan="4">
+                                       <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                                   </group>
+                                   
+<!--
+                                   <field name="description" placeholder="Describe las Caracteristicas del Producto..."/>
+-->
+                               </page>
+                           </notebook>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+<!--
+                 Vista de Arbol
+-->
+            <record id="ip_boletos_tree_view" model="ir.ui.view" >
+                <field name="name">etiquetas.tree</field>
+                <field name="model">etiquetas</field>
+                <field name="type">tree</field>
+                <field name="arch" type="xml">
+                    <tree string="Productos">
+                        <field name="name" string="Nombre"/>
+                        <field name="list_price" string="Precio de venta"/>
+                    </tree>
+                </field>
+            </record>
+            
+            <record model="ir.actions.act_window" id="action_ip_etiquetas">
+                <field name="name">Registro de Etiqueta</field>
+                <field name="res_model">etiquetas</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">tree,form</field>
+            </record>
+        
+        <menuitem name="Etiqueta" id="menu_product_template_etiquetas" parent="menu_gest_embarcacion" sequence="20" />
+        <menuitem name="Registro de Etiquetas" id="menu_registro_etiquetas" parent="menu_product_template_etiquetas" action="action_ip_etiquetas" sequence="30"/>
+
+
+    </data>
+</openerp>

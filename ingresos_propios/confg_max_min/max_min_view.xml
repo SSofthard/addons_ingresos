@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+   <openerp>
+     <data>
+    <record model="ir.ui.view" id="view_max_min_form">
+        <field name="name">max_min.form</field>
+        <field name="model">max_min</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="maximos minimos">
+                <sheet>
+                <group>
+                <field name="parque_id" select="1" style="width:30%%"/>
+                </group>
+                <notebook colspan="5">
+                    <page string="Productos">
+                        <group>
+                        <field name="product_ids" colspan="4" nolabel="1" select="0"/>
+                        </group>
+                    </page>
+                </notebook>    
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_max_min_tree">
+         <field name="name">max_min.tree</field>
+        <field name="model">max_min</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="maximos minimos">
+                <field name="parque_id" />
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_max_min">
+        <field name="name">Maximo minimo</field>
+        <field name="res_model">max_min</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_objeto_product_relacion_form">
+        <field name="name">objeto_product_relacion.form</field>
+        <field name="model">objeto_product_relacion</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="objeto_product_relacion">
+                <sheet>
+                <group>
+                <field name="product_id" select="1"/>
+                <field name="minimo" select="1"/>
+                <field name="maximo" select="1"/>
+                
+                </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_objeto_product_relacion_tree">
+         <field name="name">objeto_product_relacion.tree</field>
+        <field name="model">objeto_product_relacion</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="objeto_product_relacion">
+                <field name="product_id" />
+                <field name="minimo" />
+                <field name="maximo" />
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_objeto_product_relacion">
+        <field name="name">Objeto product relacion</field>
+        <field name="res_model">objeto_product_relacion</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+   
+<!--
+    <menuitem name="Configuracion ingresos propios" id="next_id_87" parent="base.menu_administration"  />
+-->
+    <menuitem name="Maximos y Minimos" id="menu_max_min" parent="base.menu_config" action="action_max_min" sequence="70" />
+
+    </data>
+</openerp>
+

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+		<report id="report_punto_cuenta"
+			string="Punto de Cuenta"
+			model="punto.cuenta"
+			report_type="qweb-pdf"
+			file="report.id_punto_cuenta_qweb"
+            name="report.id_punto_cuenta_qweb"
+            menu="True"/>
+	</data>
+</openerp>

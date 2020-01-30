@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+    <record model="ir.ui.view" id="view_ut_form">
+        <field name="name">ut.form</field>
+        <field name="model">ut</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Unidad tributaria">
+                <group col="4" colspan="4">
+                <field name="nombre" select="2"/>
+<!--
+                <field name="cantidad" select="2"/>
+                <field name="monto" select="2" />
+-->
+                <field name="campo_activo" select="2" invisible="1"/>
+<!--
+                <button name="calcula_monto" string="Calcular" type="object" default="false"/>
+-->
+                </group>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_ut_tree">
+        <field name="name">ut.tree</field>
+        <field name="model">ut</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Unidad tributaria">
+                <field name="nombre"/>
+                <field name="campo_activo"/>
+
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_ut">
+        <field name="name">Unidad Tributaria</field>
+        <field name="res_model">ut</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem name="Unidad Tributaria" id="menu_ut"/>
+    
+        <menuitem name="Registro Unidad" id="menu_ut_men" parent="menu_ut" sequence="0"/>
+			<menuitem name="Unidad Tributaria" id="menu_registro_ut" action="action_ut" parent="menu_ut_men" sequence="0"/>
+    
+</data>
+</openerp>

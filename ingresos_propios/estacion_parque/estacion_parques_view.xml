@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        
+        <record id="estacion_inherit2" model="ir.ui.view">
+            <field name="name">registro_parque_inherit</field>
+            <field name="model">registro_parque</field>
+            <field name="inherit_id" ref="ingresos_propios.view_registro_parque_form" />
+            <field name="arch" type="xml">
+                <notebook colspan="4" position='inside'>
+                    <page string="Estacion Parques">
+                        <group>
+                            <separator string="Estacion" colspan="4"/>
+                            <field name="est_parques_ids" colspan="4" nolabel="1" />
+                        </group>
+                    </page>
+                    </notebook>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_estacion_parques_form">
+            <field name="name">estacion_parques.form</field>
+            <field name="model">estacion_parques</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="estacion">
+                    <group col="4" colums="4">
+                        <field name="estacion_id"  select="1" style="width:80%%"/>
+                        
+                    </group>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_estacion_parques_tree">
+            <field name="name">estacion_parques.tree</field>
+            <field name="model">estacion_parques</field>
+            <field name="arch" type="xml">
+                <tree string="estacion">
+                        <field name="estacion_id"/>
+                    
+                </tree>
+            </field>
+          </record>
+        <record model="ir.ui.view" id="view_estacion_form">
+            <field name="name">estacion.form</field>
+            <field name="model">estacion</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="estacion">
+                    <group col="4" colums="4">
+                        <field name="name"  select="1" style="width:40%%"/>
+                        
+                    </group>
+                </form>
+            </field>
+        </record>
+          
+        <record model="ir.actions.act_window" id="action_estacion">
+            <field name="name">Estacion</field>
+            <field name="res_model">estacion</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+         <!-- Menu de Estaciones de Parques. -->
+    <menuitem name="Estacion Parque" id="menu_estacion" parent="menu_estructura" action="action_estacion" sequence="60" />
+        
+    </data>
+</openerp>

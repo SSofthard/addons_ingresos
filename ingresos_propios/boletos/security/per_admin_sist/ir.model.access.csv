@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_boletos,ip.boletos,model_ip.boletos,base.group_per_admin_sist,1,0,0,0
+access_inventerio_boleto_parque,ip.inventario.boletos.parque,model_ip.inventario.boletos.parque,base.group_per_admin_sist,1,0,0,0
+access_incidencia_boletos,ip.incidencia.boletos,model_ip.incidencia.boletos,base.group_per_admin_sist,1,0,0,0
+access_rendicion_boletos,ip.rendicion.boletos,model_ip.rendicion.boletos,base.group_per_admin_sist,1,0,0,0
+access_rendicion_boletos_line,ip.rendicion.boletos.line,model_ip.rendicion.boletos.line,base.group_per_admin_sist,1,0,0,0
+access_inventerio_boleto,ip.inventario.boletos.parque,model_ip.stock.boletos,base.group_per_admin_sist,1,0,0,0

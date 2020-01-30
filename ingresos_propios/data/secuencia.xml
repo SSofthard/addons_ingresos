@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<openerp> 
+    <data>
+<!--
+        esto es la definicion de la secuencia....
+-->
+        <record id="seq_suscripcion_type" model="ir.sequence.type">
+            <field name="name">Secuencia Punto de Cuenta</field>
+            <field name="code">seq.puntocuenta</field>
+        </record>
+        <record id="seq_suscripcion" model="ir.sequence">
+            <field name="name">Secuencia Punto de Cuenta</field>
+            <field name="code">seq.puntocuenta</field>
+            <field name="padding" eval="4"/>
+            <field name="prefix">OIP/%(year)s/</field>
+        </record>
+    </data>
+</openerp>
